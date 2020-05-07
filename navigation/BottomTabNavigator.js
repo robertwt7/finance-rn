@@ -4,6 +4,8 @@ import * as React from "react";
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
+import AccountsScreen from "../screen/AccountsScreen";
+import BillScreen from "../screen/BillScreen";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -25,27 +27,36 @@ export default function BottomTabNavigator({ navigation, route }) {
 						<TabBarIcon
 							focused={focused}
 							name="account-balance-wallet"
+							ionIcons={false}
 						/>
 					),
 				}}
 			/>
 			<BottomTab.Screen
 				name="Accounts"
-				component={LinksScreen}
+				component={AccountsScreen}
 				options={{
 					title: "Accounts",
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name="account-balance" />
+						<TabBarIcon
+							focused={focused}
+							name="account-balance"
+							ionIcons={false}
+						/>
 					),
 				}}
 			/>
 			<BottomTab.Screen
 				name="Bills"
-				component={LinksScreen}
+				component={BillScreen}
 				options={{
 					title: "Bills",
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name="attach_money" />
+						<TabBarIcon
+							focused={focused}
+							name="attach-money"
+							ionIcon={false}
+						/>
 					),
 				}}
 			/>
@@ -55,7 +66,7 @@ export default function BottomTabNavigator({ navigation, route }) {
 				options={{
 					title: "Resources",
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name="md-book" />
+						<TabBarIcon focused={focused} name="md-book" ionIcons />
 					),
 				}}
 			/>
