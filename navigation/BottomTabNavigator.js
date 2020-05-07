@@ -22,7 +22,30 @@ export default function BottomTabNavigator({ navigation, route }) {
 				options={{
 					title: "Budgets",
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name="md-code-working" />
+						<TabBarIcon
+							focused={focused}
+							name="account-balance-wallet"
+						/>
+					),
+				}}
+			/>
+			<BottomTab.Screen
+				name="Accounts"
+				component={LinksScreen}
+				options={{
+					title: "Accounts",
+					tabBarIcon: ({ focused }) => (
+						<TabBarIcon focused={focused} name="account-balance" />
+					),
+				}}
+			/>
+			<BottomTab.Screen
+				name="Bills"
+				component={LinksScreen}
+				options={{
+					title: "Bills",
+					tabBarIcon: ({ focused }) => (
+						<TabBarIcon focused={focused} name="attach_money" />
 					),
 				}}
 			/>
@@ -47,6 +70,10 @@ function getHeaderTitle(route) {
 	switch (routeName) {
 		case "Home":
 			return "Monthly Budget";
+		case "Accounts":
+			return "Accounts List";
+		case "Bills":
+			return "Bills";
 		case "Links":
 			return "Links to learn more";
 	}
