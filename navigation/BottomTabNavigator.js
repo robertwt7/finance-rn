@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 
-import TabBarIcon from "../components/TabBarIcon";
+import {TabBarIcon} from "../components";
 import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
-import AccountsScreen from "../screen/AccountsScreen";
-import BillScreen from "../screen/BillScreen";
+import AccountsScreen from "../screens/AccountsScreen";
+import BillScreen from "../screens/BillScreen";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -52,11 +52,7 @@ export default function BottomTabNavigator({ navigation, route }) {
 				options={{
 					title: "Bills",
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon
-							focused={focused}
-							name="attach-money"
-							ionIcon={false}
-						/>
+						<TabBarIcon focused={focused} name="attach-money" ionIcon={false} />
 					),
 				}}
 			/>
