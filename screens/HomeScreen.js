@@ -2,6 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as React from "react";
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import PropTypes from "prop-types";
 import { MonoText } from "../components/StyledText";
 import { AddBudget, MonthList } from "../components";
 
@@ -93,7 +94,11 @@ const styles = StyleSheet.create({
     color: "#2e78b7",
   },
 });
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+  const openDetails = () => {
+    navigation.navigate("BudgetDetail");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -107,7 +112,7 @@ export default function HomeScreen() {
         />
       </View>
       <AddBudget />
-      <MonthList />
+      <MonthList openDetails={openDetails} />
 
       <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>
@@ -125,6 +130,12 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 HomeScreen.navigationOptions = {
   header: null,

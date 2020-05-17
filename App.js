@@ -11,6 +11,7 @@ import store, { persistor } from "./store/store";
 
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
+import BudgetDetailScreen from "./screens/BudgetDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,10 @@ export default function App(props) {
           >
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen
+                name="BudgetDetail"
+                component={BudgetDetailScreen}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </View>
