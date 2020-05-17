@@ -3,11 +3,13 @@ import { View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles";
+import { actions } from "../../store/ducks/budget.duck";
 
 function AddBudget({ addBudget }) {
-  const [text, setText] = useState("");
+  const [name, setName] = useState("");
   const handleClick = () => {
-    addBudget(text);
+    setName("");
+    addBudget(name);
   };
 
   return (
@@ -16,10 +18,10 @@ function AddBudget({ addBudget }) {
         <TextInput
           style={styles.input}
           placeholder="Add Budget Name"
-          onChange={(v) => {
-            setText(v);
+          onChangeText={(text) => {
+            setName(text);
           }}
-          defaultValue={text}
+          value={name}
         />
       </View>
       <View style={styles.viewButton}>
@@ -34,11 +36,7 @@ function AddBudget({ addBudget }) {
 }
 
 AddBudget.propTypes = {
-  addBudget: PropTypes.func,
+  addBudget: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (state) => {
-  return state.budget.actions;
-};
-
-export default connect(null, mapDispatchToProps)(AddBudget);
+export default connect(null, actions)(AddBudget);

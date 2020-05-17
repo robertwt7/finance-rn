@@ -1,20 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles";
 
 function MonthList({ budgetList }) {
-  const [name, setName] = useState("January");
-
   return (
     <>
       {budgetList.map((values, index) => (
-        <View style={styles.container}>
-          <Text style={styles.text}>
-            Month:
-            {values}
-          </Text>
+        <View style={styles.container} key={index}>
+          <Text style={styles.text}>{values}</Text>
         </View>
       ))}
     </>

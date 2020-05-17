@@ -1,11 +1,11 @@
 import { all } from "redux-saga/effects";
 import { persistCombineReducers } from "redux-persist";
-import { storage } from "redux-persist/lib/storage";
+import { AsyncStorage } from "react-native";
 import * as budget from "./ducks/budget.duck";
 
 const config = {
   key: "root",
-  storage,
+  storage: AsyncStorage,
 };
 
 /**
