@@ -7,7 +7,7 @@ export const actionTypes = {
 };
 
 const initialBudgetState = {
-  budgetList: ["aa"],
+  budgetList: [],
   err: [],
 };
 
@@ -17,7 +17,7 @@ export const reducer = (state = initialBudgetState, action) => {
       const { budget } = action.payload;
       return {
         ...state,
-        budgetList: [budget, ...state.budgetList],
+        budgetList: [{ name: budget }, ...state.budgetList],
       };
     }
     case actionTypes.editBudget: {

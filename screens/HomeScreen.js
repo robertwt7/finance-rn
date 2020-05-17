@@ -96,23 +96,18 @@ const styles = StyleSheet.create({
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require("../assets/images/robot-dev.png")
-                : require("../assets/images/robot-prod.png")
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-        <AddBudget />
-        <MonthList />
-      </ScrollView>
+      <View style={styles.welcomeContainer}>
+        <Image
+          source={
+            __DEV__
+              ? require("../assets/images/robot-dev.png")
+              : require("../assets/images/robot-prod.png")
+          }
+          style={styles.welcomeImage}
+        />
+      </View>
+      <AddBudget />
+      <MonthList />
 
       <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>

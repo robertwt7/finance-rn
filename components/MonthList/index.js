@@ -1,18 +1,24 @@
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles";
 
+function Item({ title }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>{title}</Text>
+    </View>
+  );
+}
+
 function MonthList({ budgetList }) {
   return (
-    <>
-      {budgetList.map((values, index) => (
-        <View style={styles.container} key={index}>
-          <Text style={styles.text}>{values}</Text>
-        </View>
-      ))}
-    </>
+    <FlatList
+      data={budgetList}
+      renderItem={({ item }) => <Item title={item.name} />}
+      keyExtractor={(item) => item.index}
+    />
   );
 }
 
