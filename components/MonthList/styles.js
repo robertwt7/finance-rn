@@ -18,9 +18,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     paddingLeft: 15,
     height: 50,
+    backgroundColor: "red",
+    paddingRight: 8,
+  },
+  deleteText: {
+    color: "white",
+    fontSize: 20,
   },
 });
 
