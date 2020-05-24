@@ -95,10 +95,6 @@ const styles = StyleSheet.create({
   },
 });
 export default function HomeScreen({ navigation }) {
-  const openDetails = () => {
-    navigation.navigate("BudgetDetail");
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -112,28 +108,14 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
       <AddBudget />
-      <MonthList openDetails={openDetails} />
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}
-        >
-          <MonoText style={styles.codeHighlightText}>
-            navigation/BottomTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
+      <MonthList />
     </View>
   );
 }
 
 HomeScreen.propTypes = {
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
