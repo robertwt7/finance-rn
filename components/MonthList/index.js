@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import styles from "./styles";
+import * as budget from "../../store/ducks/budget.duck";
 
 function Item({ title, rowTranslate }) {
   const navigation = useNavigation();
@@ -61,36 +62,36 @@ Item.propTypes = {
   ).isRequired,
 };
 
-function MonthList({ budgetList }) {
+function MonthList({ budgetList, deleteBudget }) {
   const [rowTranslateAnimatedValues] = useState({});
+  const [animationIsRunning, setAnimationRunning] = useState(false);
 
   useEffect(() => {
     budgetList.forEach((_) => {
-      console.log(_);
       rowTranslateAnimatedValues[_.key] = new Animated.Value(1);
     });
   }, [budgetList]);
 
-  const onSwipeValueChange = (swipeData) => {
-    const { key, value } = swipeData;
-    if (value < -Dimensions.get("window").width && !this.animationIsRunning) {
-      this.animationIsRunning = true;
+  const onDelete = (rowData) => {
+    const { key, value } = rowData;
+    if (!animationIsRunning) {
+      setAnimationRunning(true);
       Animated.timing(rowTranslateAnimatedValues[key], {
         toValue: 0,
         duration: 200,
       }).start(() => {
-        const newData = [...listData];
-        const prevIndex = listData.findIndex((item) => item.key === key);
-        newData.splice(prevIndex, 1);
-        setListData(newData);
-        this.animationIsRunning = false;
+        setAnimationRunning(false);
       });
     }
   };
 
   const renderHiddenItem = (rowData, rowMap) => (
     <View style={styles.rowBack}>
-      <TouchableOpacity onPress={() => rowMap[rowData.item.key].closeRow()}>
+      <TouchableOpacity
+        onPress={() => {
+          deleteBudget(rowData.item);
+        }}
+      >
         <Text style={styles.deleteText}>Delete</Text>
       </TouchableOpacity>
     </View>
@@ -110,13 +111,13 @@ function MonthList({ budgetList }) {
       keyExtractor={(item) => item.index}
       renderHiddenItem={renderHiddenItem}
       rightOpenValue={-75}
-      onSwipeValueChange={onSwipeValueChange}
     />
   );
 }
 
 MonthList.propTypes = {
   budgetList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteBudget: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -126,4 +127,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(MonthList);
+export default connect(mapStateToProps, budget.actions)(MonthList);

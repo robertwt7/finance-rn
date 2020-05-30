@@ -1,4 +1,5 @@
 import React from "react";
+import * as _ from "lodash";
 
 export const actionTypes = {
   addBudget: "[ADD BUDGET]",
@@ -26,7 +27,13 @@ export const reducer = (state = initialBudgetState, action) => {
       return state;
     }
     case actionTypes.deleteBudget: {
-      return state;
+      const budgets = _.remove(state.budgetList, (n) => {
+        return n.key !== action.payload.key;
+      });
+      return {
+        ...state,
+        budgetList: budgets,
+      };
     }
     default:
       return state;
@@ -37,5 +44,9 @@ export const actions = {
   addBudget: (budget) => ({
     type: actionTypes.addBudget,
     payload: { budget },
+  }),
+  deleteBudget: (budget) => ({
+    type: actionTypes.deleteBudget,
+    payload: budget,
   }),
 };
