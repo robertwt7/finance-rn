@@ -24,17 +24,17 @@ function Item({ title, rowTranslate }) {
   return (
     <Animated.View
       style={[
-        styles.container,
+        styles.rowFront,
         {
           height: animated.interpolate({
             inputRange: [0, 1],
             outputRange: [0, 50],
-            extrapolate: "clamp",
           }),
         },
       ]}
     >
       <TouchableHighlight
+        style={styles.rowFront}
         onPress={() => {
           navigation.push("BudgetDetail", {
             itemId: title.key,
@@ -83,7 +83,7 @@ function MonthList({ budgetList, deleteBudget }) {
     }
   };
 
-  const renderHiddenItem = (rowData, rowMap) => (
+  const renderHiddenItem = (rowData) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         onPress={() => {
@@ -97,20 +97,22 @@ function MonthList({ budgetList, deleteBudget }) {
   );
 
   return (
-    <SwipeListView
-      useFlatList
-      disableRightSwipe
-      data={budgetList}
-      renderItem={(rowData) => (
-        <Item
-          title={rowData.item}
-          rowTranslate={rowTranslateAnimatedValues[rowData.item.key]}
-        />
-      )}
-      keyExtractor={(item) => item.index}
-      renderHiddenItem={renderHiddenItem}
-      rightOpenValue={-75}
-    />
+    <View style={styles.container}>
+      <SwipeListView
+        useFlatList
+        disableRightSwipe
+        data={budgetList}
+        renderItem={(rowData) => (
+          <Item
+            title={rowData.item}
+            rowTranslate={rowTranslateAnimatedValues[rowData.item.key]}
+          />
+        )}
+        keyExtractor={(item) => item.index}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-75}
+      />
+    </View>
   );
 }
 
