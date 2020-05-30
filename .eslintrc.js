@@ -3,7 +3,12 @@ module.exports = {
         browser: true,
         es6: true
     },
-    extends: ["plugin:react/recommended", "airbnb", "prettier"],
+    extends: [
+        "airbnb",
+        "plugin:react/recommended",
+        "prettier",
+        "prettier/react"
+    ],
     globals: {
         Atomics: "readonly",
         SharedArrayBuffer: "readonly"
@@ -20,6 +25,6 @@ module.exports = {
     plugins: ["react", "jsx-a11y", "import", "prettier"],
     rules: {
         "prettier/prettier": "error",
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     }
 };

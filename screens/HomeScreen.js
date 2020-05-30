@@ -134,9 +134,7 @@ function DevelopmentModeNotice() {
     return (
       <Text style={styles.developmentModeText}>
         Development mode is enabled: your app will be slower but you can use
-        useful development tools. 
-{' '}
-{learnMoreButton}
+        useful development tools. {learnMoreButton}
       </Text>
     );
   }
