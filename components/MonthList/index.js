@@ -4,7 +4,6 @@ import {
   View,
   TouchableHighlight,
   TouchableOpacity,
-  Dimensions,
   Animated,
 } from "react-native";
 import { connect } from "react-redux";
@@ -16,23 +15,22 @@ import * as budget from "../../store/ducks/budget.duck";
 
 function Item({ title, rowTranslate }) {
   const navigation = useNavigation();
-  const [height, setHeight] = useState({});
+  const [animated, setAnimated] = useState(new Animated.Value(1));
   useEffect(() => {
     if (rowTranslate) {
-      setHeight(
-        rowTranslate.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 50],
-        })
-      );
+      setAnimated(rowTranslate);
     }
   }, [rowTranslate]);
   return (
     <Animated.View
-      styles={[
+      style={[
         styles.container,
         {
-          height,
+          height: animated.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 50],
+            extrapolate: "clamp",
+          }),
         },
       ]}
     >
@@ -42,7 +40,6 @@ function Item({ title, rowTranslate }) {
             itemId: title.key,
           });
         }}
-        style={styles.container}
         underlayColor="#AAA"
       >
         <View>
@@ -73,14 +70,15 @@ function MonthList({ budgetList, deleteBudget }) {
   }, [budgetList]);
 
   const onDelete = (rowData) => {
-    const { key, value } = rowData;
-    if (!animationIsRunning) {
+    const { key } = rowData;
+    if (!animationIsRunning && rowTranslateAnimatedValues[key]) {
       setAnimationRunning(true);
       Animated.timing(rowTranslateAnimatedValues[key], {
         toValue: 0,
         duration: 200,
       }).start(() => {
         setAnimationRunning(false);
+        deleteBudget(rowData);
       });
     }
   };
@@ -89,7 +87,8 @@ function MonthList({ budgetList, deleteBudget }) {
     <View style={styles.rowBack}>
       <TouchableOpacity
         onPress={() => {
-          deleteBudget(rowData.item);
+          // Before delete, animate to remove
+          onDelete(rowData.item);
         }}
       >
         <Text style={styles.deleteText}>Delete</Text>
