@@ -24,7 +24,6 @@ function Item({ title, rowTranslate }) {
   return (
     <Animated.View
       style={[
-        styles.rowFront,
         {
           height: animated.interpolate({
             inputRange: [0, 1],
@@ -83,11 +82,11 @@ function MonthList({ budgetList, deleteBudget }) {
     }
   };
 
-  const renderHiddenItem = (rowData) => (
+  const renderHiddenItem = (rowData, rowMap) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         onPress={() => {
-          // Before delete, animate to remove
+          rowMap[rowData.item.key].closeRow();
           onDelete(rowData.item);
         }}
       >

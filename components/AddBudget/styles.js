@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontSize: 20,
     marginBottom: 1,
+    height: 40,
   },
   button: {
     textAlign: "right",
