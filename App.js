@@ -12,6 +12,7 @@ import store, { persistor } from "./store/store";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 import BudgetDetailScreen from "./screens/BudgetDetailScreen";
+import AddBudgetScreen from "./screens/AddBudgetScreen";
 
 const Stack = createStackNavigator();
 
@@ -64,6 +65,12 @@ export default function App(props) {
               <Stack.Screen
                 name="BudgetDetail"
                 component={BudgetDetailScreen}
+                options={{ title: "Details" }}
+              />
+              <Stack.Screen
+                name="AddBudget"
+                component={AddBudgetScreen}
+                options={{ title: "Add Budget" }}
               />
             </Stack.Navigator>
           </NavigationContainer>

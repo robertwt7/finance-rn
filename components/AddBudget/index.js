@@ -1,37 +1,44 @@
 import React, { useState } from "react";
-import { View, TextInput, Button } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Input, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 import { actions } from "../../store/ducks/budget.duck";
 
 function AddBudget({ addBudget }) {
   const [name, setName] = useState("");
+  const navigation = useNavigation();
   const handleClick = () => {
     setName("");
     addBudget(name);
+    navigation.goBack();
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.viewInput}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add Budget Name"
-          onChangeText={(text) => {
-            setName(text);
-          }}
-          value={name}
-        />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.margin}>
+          <Input
+            style={styles.input}
+            placeholder="Budget Name"
+            onChangeText={(text) => {
+              setName(text);
+            }}
+            value={name}
+          />
+        </View>
+        <View style={styles.margin}>
+          <Button
+            title="Add Budget"
+            onPress={handleClick}
+            style={styles.button}
+            type="clear"
+          />
+        </View>
       </View>
-      <View style={styles.viewButton}>
-        <Button
-          title="Add Budget"
-          onPress={handleClick}
-          style={styles.button}
-        />
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

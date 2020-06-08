@@ -3,9 +3,8 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 1,
+    padding: 16,
     alignItems: "center",
-    flexDirection: "row",
     justifyContent: "center",
     fontSize: 20,
     marginBottom: 1,
@@ -17,9 +16,13 @@ const styles = StyleSheet.create({
   input: {
     height: 20,
     paddingLeft: 15,
+    textAlign: "center",
   },
-  viewInput: { flex: 4 },
-  viewButton: { flex: 2 },
+  margin: {
+    alignSelf: "stretch",
+    marginTop: 8,
+    marginBottom: 8,
+  },
 });
 
 export default styles;

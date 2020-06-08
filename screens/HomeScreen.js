@@ -1,9 +1,9 @@
 import * as WebBrowser from "expo-web-browser";
 import * as React from "react";
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
-import { MonoText } from "../components/StyledText";
+import { Button } from "react-native-elements";
+import { FontAwesome } from "@expo/vector-icons";
 import { AddBudget, MonthList } from "../components";
 
 const styles = StyleSheet.create({
@@ -107,8 +107,13 @@ export default function HomeScreen({ navigation }) {
           style={styles.welcomeImage}
         />
       </View>
-      <AddBudget />
       <MonthList />
+      <View>
+        <Button
+          title="Add new budget"
+          onPress={() => navigation.push("AddBudget")}
+        />
+      </View>
     </View>
   );
 }
@@ -117,10 +122,6 @@ HomeScreen.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-};
-
-HomeScreen.navigationOptions = {
-  header: null,
 };
 
 function DevelopmentModeNotice() {
