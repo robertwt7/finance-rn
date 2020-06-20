@@ -13,6 +13,7 @@ import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 import BudgetDetailScreen from "./screens/BudgetDetailScreen";
 import AddBudgetScreen from "./screens/AddBudgetScreen";
+import IncomeOutcomeScreen from "./screens/IncomeOutcomeScreen";
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,11 @@ export default function App(props) {
                 name="AddBudget"
                 component={AddBudgetScreen}
                 options={{ title: "Add Budget" }}
+              />
+              <Stack.Screen
+                name="IncomeOutcome"
+                component={IncomeOutcomeScreen}
+                options={{ title: "Form" }}
               />
             </Stack.Navigator>
           </NavigationContainer>
