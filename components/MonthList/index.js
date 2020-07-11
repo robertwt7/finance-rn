@@ -55,7 +55,7 @@ Item.propTypes = {
   ).isRequired,
   rowTranslate: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.number, PropTypes.func])
-  ).isRequired,
+  ),
 };
 
 function MonthList({ budgetList, deleteBudget }) {

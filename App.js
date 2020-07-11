@@ -7,6 +7,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
+import { ThemeProvider } from "react-native-elements";
+import theme from "./theme";
 import store, { persistor } from "./store/store";
 
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
@@ -55,32 +57,34 @@ export default function App(props) {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <NavigationContainer
-            ref={containerRef}
-            initialState={initialNavigationState}
-          >
-            <Stack.Navigator>
-              <Stack.Screen name="Root" component={BottomTabNavigator} />
-              <Stack.Screen
-                name="BudgetDetail"
-                component={BudgetDetailScreen}
-                options={{ title: "Details" }}
-              />
-              <Stack.Screen
-                name="AddBudget"
-                component={AddBudgetScreen}
-                options={{ title: "Add Budget" }}
-              />
-              <Stack.Screen
-                name="IncomeOutcome"
-                component={IncomeOutcomeScreen}
-                options={{ title: "Form" }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
+        <ThemeProvider theme={theme}>
+          <View style={styles.container}>
+            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            <NavigationContainer
+              ref={containerRef}
+              initialState={initialNavigationState}
+            >
+              <Stack.Navigator>
+                <Stack.Screen name="Root" component={BottomTabNavigator} />
+                <Stack.Screen
+                  name="BudgetDetail"
+                  component={BudgetDetailScreen}
+                  options={{ title: "Details" }}
+                />
+                <Stack.Screen
+                  name="AddBudget"
+                  component={AddBudgetScreen}
+                  options={{ title: "Add Budget" }}
+                />
+                <Stack.Screen
+                  name="IncomeOutcome"
+                  component={IncomeOutcomeScreen}
+                  options={{ title: "Form" }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </View>
+        </ThemeProvider>
       </PersistGate>
     </Provider>
   );

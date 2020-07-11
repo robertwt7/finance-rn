@@ -1,17 +1,21 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { Button, Card, ListItem, Icon } from "react-native-elements";
-import Wallet from "../assets/images/undraw_wallet.svg";
+import UndrawWallet from "../assets/images/svg/undraw_wallet";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  image: {
-    width: "100%",
-    height: "100%",
+  imageContainer: {
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
@@ -19,11 +23,10 @@ const users = [{ name: "Income1" }, { name: "Income2" }, { name: "Income3" }];
 
 function BudgetDetailScreen({ route, navigation }) {
   const { itemId } = route.params;
-
   return (
     <View style={styles.container}>
-      <View>
-        <Wallet style={styles.image} />
+      <View style={styles.imageContainer}>
+        <UndrawWallet width={windowWidth * 0.3} height={windowHeight * 0.3} />
       </View>
       <View>
         <Text> Hello this is budget:{itemId}!</Text>
@@ -35,7 +38,7 @@ function BudgetDetailScreen({ route, navigation }) {
               <Image
                 style={styles.image}
                 resizeMode="cover"
-                source={{ uri: require("../assets/images/icon.png") }}
+                source={{ uri: "../assets/images/icon.png" }}
               />
               <Text style={styles.name}>{u.name}</Text>
             </View>
@@ -54,7 +57,7 @@ function BudgetDetailScreen({ route, navigation }) {
               <Image
                 style={styles.image}
                 resizeMode="cover"
-                source={{ uri: require("../assets/images/icon.png") }}
+                source={{ uri: "../assets/images/icon.png" }}
               />
               <Text style={styles.name}>{u.name}</Text>
             </View>
