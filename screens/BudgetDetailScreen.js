@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
 });
 
 const users = [{ name: "Income1" }, { name: "Income2" }, { name: "Income3" }];
@@ -19,7 +23,7 @@ function BudgetDetailScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <View>
-        <Wallet />
+        <Wallet style={styles.image} />
       </View>
       <View>
         <Text> Hello this is budget:{itemId}!</Text>
