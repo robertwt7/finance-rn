@@ -5,7 +5,13 @@ module.exports = {
     node: true,
   },
   parser: "babel-eslint",
-  extends: ["airbnb", "prettier/react", "prettier"],
+  extends: [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:prettier/recommended",
+  ],
 
   globals: {
     Atomics: "readonly",
@@ -34,7 +40,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       node: {
-        paths: ["src"],
+        paths: ["."],
       },
     },
   },

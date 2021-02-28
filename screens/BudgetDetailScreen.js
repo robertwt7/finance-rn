@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  buttonStyle: {
+    borderRadius: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    marginTop: 10,
+  },
 });
 
 const users = [{ name: "Income1" }, { name: "Income2" }, { name: "Income3" }];
@@ -46,7 +52,7 @@ function BudgetDetailScreen({ route, navigation }) {
         })}
         <Button
           icon={<Icon name="thumbs-down" type="entypo" color="#ffffff" />}
-          buttonStyle={{ borderRadius: 0, marginRight: 0, marginBottom: 0 }}
+          buttonStyle={styles.buttonStyle}
           title="Add Outcome"
         />
       </Card>
@@ -65,11 +71,10 @@ function BudgetDetailScreen({ route, navigation }) {
         })}
         <Button
           icon={<Icon name="thumbs-up" type="entypo" color="#ffffff" />}
-          buttonStyle={{ borderRadius: 0, marginRight: 0, marginBottom: 0 }}
+          buttonStyle={styles.buttonStyle}
           title="Add Income"
         />
       </Card>
-      <Button title="Add Income" type="outline" />
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import { all } from "redux-saga/effects";
 import { persistCombineReducers } from "redux-persist";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+
 import * as budget from "./ducks/budget.duck";
 
 const config = {
