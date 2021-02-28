@@ -97,20 +97,26 @@ function MonthList({ budgetList, deleteBudget }) {
 
   return (
     <View style={styles.container}>
-      <SwipeListView
-        useFlatList
-        disableRightSwipe
-        data={budgetList}
-        renderItem={(rowData) => (
-          <Item
-            title={rowData.item}
-            rowTranslate={rowTranslateAnimatedValues[rowData.item.key]}
-          />
-        )}
-        keyExtractor={(item) => item.index}
-        renderHiddenItem={renderHiddenItem}
-        rightOpenValue={-75}
-      />
+      {budgetList.length > 0 ? (
+        <SwipeListView
+          useFlatList
+          disableRightSwipe
+          data={budgetList}
+          renderItem={(rowData) => (
+            <Item
+              title={rowData.item}
+              rowTranslate={rowTranslateAnimatedValues[rowData.item.key]}
+            />
+          )}
+          keyExtractor={(item) => item.index}
+          renderHiddenItem={renderHiddenItem}
+          rightOpenValue={-75}
+        />
+      ) : (
+        <Text style={styles.placeholder}>
+          There is no item here, please add budget
+        </Text>
+      )}
     </View>
   );
 }

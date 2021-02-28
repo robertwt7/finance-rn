@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
     padding: 1,
     fontSize: 20,
   },
+  placeholder: {
+    textAlign: "center",
+    color: "grey",
+    fontSize: 35,
+  },
   rowBack: {
     alignItems: "center",
     flex: 1,
