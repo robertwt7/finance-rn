@@ -4,9 +4,9 @@ import * as React from "react";
 import { Button } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 import { TabBarIcon } from "../components";
-import HomeScreen from "../screens/HomeScreen";
+import BudgetScreen from "../screens/BudgetScreen";
 import LinksScreen from "../screens/LinksScreen";
-import AccountsScreen from "../screens/AccountsScreen";
+import HomeScreen from "../screens/HomeScreen";
 import BillScreen from "../screens/BillScreen";
 
 const BottomTab = createBottomTabNavigator();
@@ -24,7 +24,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Budgets",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
@@ -35,26 +35,16 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Accounts"
-        component={AccountsScreen}
+        name="Budgets"
+        component={BudgetScreen}
         options={{
-          title: "Accounts",
+          title: "Budgets",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
               name="account-balance"
               ionIcons={false}
             />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Bills"
-        component={BillScreen}
-        options={{
-          title: "Bills",
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="attach-money" ionIcon={false} />
           ),
         }}
       />
@@ -78,9 +68,9 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case "Home":
-      return "Monthly Budget";
-    case "Accounts":
-      return "Accounts List";
+      return "Dashboard";
+    case "Budgets":
+      return "Budgets";
     case "Bills":
       return "Bills";
     case "Links":
