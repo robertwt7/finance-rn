@@ -1,37 +1,72 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
+import { Button } from "react-native-elements";
+import { moderateScale } from "../helpers";
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  selectedDayText: {
+    fontSize: moderateScale(8),
+    fontWeight: "500",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    padding: 8,
+    marginTop: 8,
+  },
+});
 
 export default function AccountsScreen() {
+  const [markedDate, setMarkedDate] = useState({});
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
+  const handleClick = useCallback(
+    (day) => {
+      setMarkedDate({
+        [day.dateString]: {
+          selected: true,
+          marked: true,
+          selectedColor: "#3f51b5",
+        },
+      });
+
+      // Use this later to set previous selected date as false when marking date in markedDate
+      setSelectedDate(day.dateString);
+    },
+    [markedDate]
+  );
+
   return (
-    <View>
+    <View style={styles.container}>
       <Calendar
         // Initially visible month. Default = Date()
         current={dayjs().format("YYYY-MM-DD")}
-        // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-        minDate="2012-05-10"
-        // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-        maxDate="2012-05-30"
         // Handler which gets executed on day press. Default = undefined
-        onDayPress={(day) => {
-          console.log("selected day", day);
-        }}
+        onDayPress={handleClick}
+        markedDates={markedDate}
         // Handler which gets executed on day long press. Default = undefined
         onDayLongPress={(day) => {
           console.log("selected day", day);
         }}
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-        monthFormat="MM yyyy"
+        monthFormat="MMM yyyy"
         // Handler which gets executed when visible month changes in calendar. Default = undefined
         onMonthChange={(month) => {
           console.log("month changed", month);
         }}
         // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
         // day from another month that is visible in calendar page. Default = false
-        disableMonthChange
+
         // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
         firstDay={1}
         // Show week numbers to the left. Default = false
@@ -45,8 +80,17 @@ export default function AccountsScreen() {
         // Enable the option to swipe between months. Default = false
         enableSwipeMonths
       />
-      <View>
-        <Text> Add new expense and income here </Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.selectedDayText}>
+          {dayjs(selectedDate).format("DD MMM YYYY")}
+        </Text>
+        <Text>
+          There is nothing here.. please add expense or income for selected day{" "}
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button title="Add Income" style={{ padding: 8 }} />
+          <Button title="Add Expense" type="outline" style={{ padding: 8 }} />
+        </View>
       </View>
     </View>
   );
