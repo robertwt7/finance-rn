@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
 import { Button } from "react-native-elements";
+import { useNavigation } from "@react-navigation/native";
 import { moderateScale } from "../helpers";
 import Colors from "../constants/Colors";
 
@@ -31,6 +32,7 @@ export default function AccountsScreen() {
   const [selectedDate, setSelectedDate] = useState(
     dayjs().format("YYYY-MM-DD")
   );
+  const navigation = useNavigation();
 
   const handleClick = useCallback(
     (day) => {
@@ -47,6 +49,10 @@ export default function AccountsScreen() {
     },
     [markedDate]
   );
+
+  const handleIncomeCLick = useCallback(() => {
+    navigation.push("IncomeOutcome");
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -90,7 +96,11 @@ export default function AccountsScreen() {
           There is nothing here.. please add expense or income for selected day{" "}
         </Text>
         <View style={styles.buttonContainer}>
-          <Button title="Add Income" style={{ padding: 8 }} />
+          <Button
+            title="Add Income"
+            style={{ padding: 8 }}
+            onPress={handleIncomeCLick}
+          />
           <Button title="Add Expense" type="outline" style={{ padding: 8 }} />
         </View>
       </View>

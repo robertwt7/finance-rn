@@ -6,6 +6,7 @@ import { TabBarIcon } from "../components";
 import BudgetScreen from "../screens/BudgetScreen";
 import LinksScreen from "../screens/LinksScreen";
 import HomeScreen from "../screens/HomeScreen";
+import HomeNavigator from "./HomeNavigator";
 import { moderateScale } from "../helpers";
 import Colors from "../constants/Colors";
 
@@ -30,7 +31,7 @@ export default function BottomTabNavigator({ navigation, route }) {
     >
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (

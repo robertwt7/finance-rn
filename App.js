@@ -10,15 +10,10 @@ import { PersistGate } from "redux-persist/es/integration/react";
 import { ThemeProvider } from "react-native-elements";
 import theme from "./theme";
 import store, { persistor } from "./store/store";
-
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
+import Routes from "./Routes";
 import useLinking from "./navigation/useLinking";
-import BudgetDetailScreen from "./screens/BudgetDetailScreen";
-import AddBudgetScreen from "./screens/AddBudgetScreen";
-import IncomeOutcomeScreen from "./screens/IncomeOutcomeScreen";
 
 const Stack = createStackNavigator();
-
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
@@ -29,7 +24,7 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
+        SplashScreen.preventAutoHideAsync();
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
@@ -44,7 +39,7 @@ export default function App(props) {
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
+        SplashScreen.hideAsync();
       }
     }
 
@@ -64,24 +59,7 @@ export default function App(props) {
               ref={containerRef}
               initialState={initialNavigationState}
             >
-              <Stack.Navigator>
-                <Stack.Screen name="Root" component={BottomTabNavigator} />
-                <Stack.Screen
-                  name="BudgetDetail"
-                  component={BudgetDetailScreen}
-                  options={{ title: "Details" }}
-                />
-                <Stack.Screen
-                  name="AddBudget"
-                  component={AddBudgetScreen}
-                  options={{ title: "Add Budget" }}
-                />
-                <Stack.Screen
-                  name="IncomeOutcome"
-                  component={IncomeOutcomeScreen}
-                  options={{ title: "Form" }}
-                />
-              </Stack.Navigator>
+              <Routes />
             </NavigationContainer>
           </View>
         </ThemeProvider>

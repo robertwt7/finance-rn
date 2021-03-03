@@ -1,10 +1,8 @@
 import React from "react";
 import { IncomeOutcomeForm } from "../components";
 
-function IncomeOutcomeScreen({ route, navigation }) {
-  const { addFunction, type } = route.params;
-
-  return <IncomeOutcomeForm addFunction={addFunction} type={type} />;
+function IncomeOutcomeScreen() {
+  return <IncomeOutcomeForm />;
 }
 
 export default IncomeOutcomeScreen;
