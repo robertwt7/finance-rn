@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useLayoutEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
 import { Button } from "react-native-elements";
 import { moderateScale } from "../helpers";
+import Colors from "../constants/Colors";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +31,7 @@ export default function AccountsScreen() {
   const [selectedDate, setSelectedDate] = useState(
     dayjs().format("YYYY-MM-DD")
   );
+
   const handleClick = useCallback(
     (day) => {
       setMarkedDate({
