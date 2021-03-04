@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 import { actions } from "../../store/ducks/budget.duck";
 
-function IncomeOutcomeForm({ addFunction, type }) {
+function IncomeOutcomeLayout({ addFunction, type }) {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
   const navigation = useNavigation();
@@ -53,9 +53,9 @@ function IncomeOutcomeForm({ addFunction, type }) {
   );
 }
 
-IncomeOutcomeForm.propTypes = {
+IncomeOutcomeLayout.propTypes = {
   addFunction: PropTypes.func,
   type: PropTypes.string,
 };
 
-export default connect(null, actions)(IncomeOutcomeForm);
+export default connect(null, actions)(IncomeOutcomeLayout);

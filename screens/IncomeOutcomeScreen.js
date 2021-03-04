@@ -3,13 +3,11 @@ import { SafeAreaView } from "react-native";
 import {
   Divider,
   Icon,
-  Layout,
-  Text,
   TopNavigation,
   TopNavigationAction,
 } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import { IncomeOutcomeForm } from "../components";
+import { IncomeOutcomeLayout } from "../layouts/IncomeOutcome";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -25,12 +23,12 @@ function IncomeOutcomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation
-        title="MyApp"
+        title="Income Outcome Form"
         alignment="center"
         accessoryLeft={BackAction}
       />
       <Divider />
-      <IncomeOutcomeForm />
+      <IncomeOutcomeLayout />
     </SafeAreaView>
   );
 }

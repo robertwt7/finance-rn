@@ -5,7 +5,7 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
-import * as eva from "@eva-design/material";
+import * as eva from "@eva-design/eva";
 import { PersistGate } from "redux-persist/es/integration/react";
 import { ThemeProvider } from "react-native-elements";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
