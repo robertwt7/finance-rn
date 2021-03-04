@@ -4,16 +4,18 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
+import * as eva from "@eva-design/eva";
 import { PersistGate } from "redux-persist/es/integration/react";
 import { ThemeProvider } from "react-native-elements";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import theme from "./theme";
 import store, { persistor } from "./store/store";
 import Routes from "./Routes";
 import useLinking from "./navigation/useLinking";
+import { default as kittenTheme } from "./kitten-theme.json";
 
-const Stack = createStackNavigator();
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
@@ -50,21 +52,26 @@ export default function App(props) {
     return null;
   }
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <View style={styles.container}>
-            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <NavigationContainer
-              ref={containerRef}
-              initialState={initialNavigationState}
-            >
-              <Routes />
-            </NavigationContainer>
-          </View>
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <ApplicationProvider {...eva} theme={{ ...eva.dark, ...kittenTheme }}>
+            <ThemeProvider theme={theme}>
+              <View style={styles.container}>
+                {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+                <NavigationContainer
+                  ref={containerRef}
+                  initialState={initialNavigationState}
+                >
+                  <Routes />
+                </NavigationContainer>
+              </View>
+            </ThemeProvider>
+          </ApplicationProvider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 export default function Routes() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen
         name="BudgetDetail"
