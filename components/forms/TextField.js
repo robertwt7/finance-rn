@@ -1,5 +1,34 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFormikContext, useField } from "formik";
+import { Input } from "@ui-kitten/components";
+import PropTypes from "prop-types";
 
-export default function TextField() {
-  return <div />;
+TextField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  secure: PropTypes.bool,
+};
+
+export default function TextField({ name, label, secure = false, ...props }) {
+  const [field, meta] = useField(name);
+  const { setFieldValue, setFieldTouched } = useFormikContext();
+
+  const handleType = useCallback(
+    (text) => {
+      setFieldValue(name, text);
+      setFieldTouched(name, true);
+    },
+    [name]
+  );
+
+  return (
+    <Input
+      status={Boolean(meta.error && meta.touched) && "danger"}
+      value={field.value}
+      label={label}
+      caption={String(meta.error)}
+      secureTextEntry={secure}
+      onChangeText={handleType}
+    />
+  );
 }

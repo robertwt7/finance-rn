@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Toggle, Text } from "@ui-kitten/components";
 import { useFormikContext, useField } from "formik";
 import PropTypes from "prop-types";
@@ -11,10 +11,13 @@ Switch.propTypes = {
 export default function Switch({ name, label }) {
   const [field, meta] = useField(name);
   const { setFieldValue, setFieldTouched } = useFormikContext();
-  const handleChange = (isChecked) => {
-    setFieldValue(isChecked);
-    setFieldTouched(name, true);
-  };
+  const handleChange = useCallback(
+    (isChecked) => {
+      setFieldValue(isChecked);
+      setFieldTouched(name, true);
+    },
+    [name]
+  );
 
   return (
     <>
