@@ -2,28 +2,34 @@
 const migrations = {
   0: [
     {
-      query: `CREATE TABLE IF NOT EXISTS users (
+      query: `CREATE TABLE IF NOT EXISTS transactions (
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          income BOOLEAN DEFAULT 0,
+          category_id INT,
+          FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+          );`,
+    },
+    {
+      query: `CREATE TABLE IF NOT EXISTS categories (
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL
         );`,
     },
     {
-      query: `CREATE TABLE IF NOT EXISTS form_types (
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL
-        );`,
+      query: `CREATE TABLE IF NOT EXISTS budgets (
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          amount INTEGER DEFAULT 0
+          );`,
     },
     {
-      query: `CREATE TABLE IF NOT EXISTS forms (
-        id INTEGER PRIMARY KEY,
-        payload TEXT NOT NULL,
-        completed BOOLEAN DEFAULT 0,
-        user_id INT NOT NULL,
-        form_type_id INT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (form_type_id) REFERENCES form_types(id) ON DELETE CASCADE
-        );`,
+      query: `CREATE TABLE IF NOT EXISTS budget_transaction (
+            budget_id INT NOT NULL,
+            transaction_id INT NOT NULL,
+            FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE CASCADE
+            FOREIGN KEY (transaction_id) REFERENCES transactions(id) ON DELETE CASCADE
+            );`,
     },
   ],
 };
