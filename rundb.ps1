@@ -1,0 +1,1 @@
+docker run -it -v ${PWD}/sqlite-data:/db sqlite

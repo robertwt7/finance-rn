@@ -24,6 +24,7 @@ export default class FinanceDB {
       );
       `);
 
+      // Get the current db version
       tx.executeSql(
         `
       SELECT version FROM schema_version;
@@ -59,7 +60,7 @@ export default class FinanceDB {
           VALUES (${counter});
         `);
 
-        // execute forms seeder to the db
+        // Execute forms seeder here!!
       } else {
         // Add future migrations here for update
         tx.executeSql(`
