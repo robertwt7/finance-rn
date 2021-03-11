@@ -15,16 +15,15 @@ import styles from "./styles";
 import { actions } from "../../store/ducks/budget.duck";
 
 function IncomeOutcomeLayout({ addFunction, type }) {
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState(0);
   const [initial, setInitial] = useState(formValues);
   const navigation = useNavigation();
 
   const handleFormSubmit = useCallback((values) => {
+    // TODO: Set category later
     // Insert data here
     const query =
       "INSERT INTO transactions (name, income, amount, category_id) VALUES (?,?,?,?)";
-    insertData(query, args);
+    insertData(query, [values.name, values.income, values.amount, 0]);
   }, []);
 
   return (
