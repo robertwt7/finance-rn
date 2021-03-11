@@ -28,15 +28,15 @@ function IncomeOutcomeLayout({ addFunction, type }) {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Formik
-        enableReinitialize
-        onSubmit={handleFormSubmit}
-        initialValues={initial}
-        validationSchema={validationTransaction}
-      >
-        {({ isSubmitting, values, handleSubmit }) => (
-          <Form>
-            <View style={styles.container}>
+      <View style={styles.container}>
+        <Formik
+          enableReinitialize
+          onSubmit={handleFormSubmit}
+          initialValues={initial}
+          validationSchema={validationTransaction}
+        >
+          {({ isSubmitting, values, handleSubmit }) => (
+            <>
               <View style={styles.margin}>
                 <Switch
                   name="income"
@@ -58,10 +58,10 @@ function IncomeOutcomeLayout({ addFunction, type }) {
                   type="clear"
                 />
               </View>
-            </View>
-          </Form>
-        )}
-      </Formik>
+            </>
+          )}
+        </Formik>
+      </View>
     </TouchableWithoutFeedback>
   );
 }

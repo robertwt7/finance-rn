@@ -62,7 +62,10 @@ function App(props) {
       <IconRegistry icons={EvaIconsPack} />
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <ApplicationProvider {...eva} theme={{ ...eva.dark, ...kittenTheme }}>
+          <ApplicationProvider
+            {...eva}
+            theme={{ ...eva.light, ...kittenTheme }}
+          >
             <ThemeProvider theme={theme}>
               <View style={styles.container}>
                 {Platform.OS === "ios" && <StatusBar barStyle="default" />}

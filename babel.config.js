@@ -9,7 +9,7 @@ module.exports = function (api) {
           alias: {
             assets: "./assets",
             components: "./src/components",
-            db: "./src/modules",
+            db: "./src/db",
             helpers: "./src/helpers",
             layouts: "./src/layouts",
             navigation: "./src/navigation",

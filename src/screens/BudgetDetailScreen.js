@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { Button, Card, ListItem, Icon } from "react-native-elements";
-import UndrawWallet from "../assets/images/svg/undraw_wallet";
+import UndrawWallet from "assets/images/svg/undraw_wallet";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

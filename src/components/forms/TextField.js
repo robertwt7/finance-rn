@@ -26,7 +26,7 @@ export default function TextField({ name, label, secure = false, ...props }) {
       status={Boolean(meta.error && meta.touched) && "danger"}
       value={field.value}
       label={label}
-      caption={String(meta.error)}
+      caption={Boolean(meta.error && meta.touched) && String(meta.error)}
       secureTextEntry={secure}
       onChangeText={handleType}
     />
