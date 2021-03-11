@@ -6,6 +6,7 @@ const migrations = {
           id INTEGER PRIMARY KEY,
           name TEXT NOT NULL,
           income BOOLEAN DEFAULT 0,
+          amount INTEGER NOT NULL,
           category_id INT,
           FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
           );`,

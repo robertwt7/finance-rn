@@ -10,13 +10,14 @@ import { PersistGate } from "redux-persist/es/integration/react";
 import { ThemeProvider } from "react-native-elements";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { registerRootComponent } from "expo";
 import theme from "./theme";
 import store, { persistor } from "./store/store";
 import Routes from "./Routes";
 import useLinking from "./navigation/useLinking";
 import { default as kittenTheme } from "./kitten-theme.json";
 
-export default function App(props) {
+function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -34,7 +35,7 @@ export default function App(props) {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+          "space-mono": require("../assets/fonts/SpaceMono-Regular.ttf"),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -81,3 +82,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
+
+export default registerRootComponent(App);
