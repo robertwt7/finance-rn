@@ -16,12 +16,17 @@ import store, { persistor } from "./store/store";
 import Routes from "./Routes";
 import useLinking from "./navigation/useLinking";
 import { default as kittenTheme } from "./kitten-theme.json";
+import FinanceDB from "./db";
 
 function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
+
+  // Init DB
+  const db = new FinanceDB();
+  db.init();
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
