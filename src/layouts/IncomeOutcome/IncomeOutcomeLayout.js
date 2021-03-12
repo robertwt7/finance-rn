@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button } from "react-native-elements";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import { Formik, Form } from "formik";
@@ -11,12 +11,13 @@ import {
 } from "constants/forms/TransactionConst";
 import { insertData } from "db/methods";
 import { TextField, Switch } from "components/forms";
+import { actions as messageActions } from "store/ducks/message.duck";
 import styles from "./styles";
-import { actions } from "../../store/ducks/budget.duck";
 
-function IncomeOutcomeLayout({ addFunction, type }) {
+function IncomeOutcomeLayout(props) {
   const [initial, setInitial] = useState(formValues);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = useCallback((values) => {
     // TODO: Set category later
@@ -31,7 +32,8 @@ function IncomeOutcomeLayout({ addFunction, type }) {
     ]);
 
     if (affected) {
-      navigation.goBack();
+      dispatch(messageActions.showMessage({ message: "Transaction inserted" }));
+      setTimeout(() => navigation.goBack(), 1000);
     }
   }, []);
 
@@ -75,9 +77,4 @@ function IncomeOutcomeLayout({ addFunction, type }) {
   );
 }
 
-IncomeOutcomeLayout.propTypes = {
-  addFunction: PropTypes.func,
-  type: PropTypes.string,
-};
-
-export default connect(null, actions)(IncomeOutcomeLayout);
+export default IncomeOutcomeLayout;
