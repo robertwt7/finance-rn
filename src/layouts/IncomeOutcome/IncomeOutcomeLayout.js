@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
@@ -23,7 +23,16 @@ function IncomeOutcomeLayout({ addFunction, type }) {
     // Insert data here
     const query =
       "INSERT INTO transactions (name, income, amount, category_id) VALUES (?,?,?,?)";
-    insertData(query, [values.name, values.income, values.amount, 0]);
+    const { id, affected } = insertData(query, [
+      values.name,
+      values.income,
+      values.amount,
+      0,
+    ]);
+
+    if (affected) {
+      navigation.goBack();
+    }
   }, []);
 
   return (
