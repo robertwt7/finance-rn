@@ -9,6 +9,7 @@ import * as eva from "@eva-design/eva";
 import { PersistGate } from "redux-persist/es/integration/react";
 import { ThemeProvider } from "react-native-elements";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { Message } from "components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { registerRootComponent } from "expo";
 import theme from "./theme";
@@ -74,6 +75,7 @@ function App(props) {
                   initialState={initialNavigationState}
                 >
                   <Routes />
+                  <Message />
                 </NavigationContainer>
               </View>
             </ThemeProvider>
