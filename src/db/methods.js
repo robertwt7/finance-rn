@@ -1,18 +1,12 @@
 import { db } from "./index";
 
 // https://docs.expo.io/versions/latest/sdk/sqlite/
-export function insertData(sqlStatement, args) {
-  let id;
-  let affected;
-
+export function insertData(sqlStatement, args, successCallback) {
   db.transaction((tx) => {
-    tx.executeSql(sqlStatement, args, (_, { insertId, rowsAffected }) => {
-      id = insertId;
-      affected = rowsAffected;
-    });
+    tx.executeSql(sqlStatement, args, successCallback, (err) =>
+      console.log(err)
+    );
   });
-
-  return { id, affected };
 }
 
 export function selectData(sqlStatement, args) {

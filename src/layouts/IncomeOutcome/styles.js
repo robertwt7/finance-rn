@@ -4,11 +4,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
     fontSize: 20,
     marginBottom: 1,
-    height: 40,
   },
   button: {
     textAlign: "right",

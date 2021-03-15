@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   selectedDayText: {
-    fontSize: moderateScale(8),
+    fontSize: moderateScale(20),
+    marginVertical: 8,
     fontWeight: "500",
   },
   contentContainer: {
