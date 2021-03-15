@@ -50,6 +50,8 @@ export default class FinanceDB {
 
           // Next version to migrate would be migration key + 1÷
           counter = parseInt(ver, 10) + 1;
+
+          console.log("Updated version");
         }
       });
 

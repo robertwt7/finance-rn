@@ -33,6 +33,11 @@ const migrations = {
             );`,
     },
   ],
+  1: [
+    {
+      query: `ALTER TABLE transactions date COLUMN timestamp TEXT;`,
+    },
+  ],
 };
 
 export default migrations;

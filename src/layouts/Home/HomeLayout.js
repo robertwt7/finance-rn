@@ -1,11 +1,11 @@
-import React, { useCallback, useState, useLayoutEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
 import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { selectData } from "db/methods";
 import { moderateScale } from "../../helpers";
-import Colors from "../../constants/Colors";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,8 +51,16 @@ export default function HomeLayout() {
     [markedDate]
   );
 
-  const handleIncomeCLick = useCallback(() => {
-    navigation.push("IncomeOutcome");
+  const handleIncomeCLick = () => {
+    navigation.push("IncomeOutcome", { selectedDate });
+  };
+
+  useEffect(() => {
+    const query = "SELECT * FROM transactions;";
+
+    selectData(query, undefined, (_, { rows: { _array } }) => {
+      console.log(_array);
+    });
   }, []);
 
   return (

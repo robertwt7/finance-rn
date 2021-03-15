@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Formik, Form } from "formik";
 import {
   validationTransaction,
@@ -18,16 +18,17 @@ import styles from "./styles";
 function IncomeOutcomeLayout(props) {
   const [initial, setInitial] = useState(formValues);
   const navigation = useNavigation();
+  const route = useRoute();
   const dispatch = useDispatch();
 
   const handleFormSubmit = (values) => {
     // TODO: Set category later
     // Insert data here
     const query =
-      "INSERT INTO transactions (name, income, amount, category_id) VALUES (?,?,?,?)";
+      "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?)";
     insertData(
       query,
-      [values.name, values.income, values.amount, 0],
+      [values.name, values.income, values.amount, 0, route.params.selectedDate],
       (_, { rowsAffected }) => {
         if (rowsAffected) {
           dispatch(
