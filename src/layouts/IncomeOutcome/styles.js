@@ -7,9 +7,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 1,
   },
-  button: {
-    textAlign: "right",
-  },
   input: {
     height: 20,
     paddingLeft: 15,

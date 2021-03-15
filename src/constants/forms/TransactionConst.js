@@ -1,6 +1,9 @@
 import * as yup from "yup";
 
-export const validationTransaction = yup.object().shape({});
+export const validationTransaction = yup.object().shape({
+  name: yup.string().required("Required"),
+  amount: yup.number().typeError("Must be a number").required("Required"),
+});
 
 const values = {
   name: "",

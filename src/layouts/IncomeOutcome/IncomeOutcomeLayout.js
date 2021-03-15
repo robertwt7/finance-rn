@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +12,7 @@ import { insertData } from "db/methods";
 import { TextField, Switch } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Button } from "@ui-kitten/components";
 import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
@@ -64,13 +64,9 @@ function IncomeOutcomeLayout(props) {
                   <TextField name="amount" label="Amount" />
                 </View>
                 <View style={styles.margin}>
-                  <Button
-                    title="Add"
-                    onPress={handleSubmit}
-                    style={styles.button}
-                    disabled={isSubmitting}
-                    type="clear"
-                  />
+                  <Button onPress={handleSubmit} disabled={isSubmitting}>
+                    Add
+                  </Button>
                 </View>
               </>
             )}
