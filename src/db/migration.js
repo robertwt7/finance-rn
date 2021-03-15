@@ -35,7 +35,7 @@ const migrations = {
   ],
   1: [
     {
-      query: `ALTER TABLE transactions date COLUMN timestamp TEXT;`,
+      query: `ALTER TABLE transactions ADD COLUMN date TEXT;`,
     },
   ],
 };

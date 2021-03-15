@@ -5,11 +5,43 @@ export const db = SQLLite.openDatabase("FinanceDB");
 export default class FinanceDB {
   constructor() {
     this.db = db;
-    this.versionRecord = {};
+    this.versionRecord = [];
   }
 
-  setVersionRecord = (data) => {
-    this.versionRecord = data;
+  setVersionRecord = (tx) => (_, { rows: { _array } }) => {
+    const version = _array.length ? _array[0].version : 0;
+
+    let counter = 0;
+    // Execute migration based on the version
+    Object.keys(migrations).forEach((ver) => {
+      if (ver >= version) {
+        migrations[ver].forEach((item) => {
+          tx.executeSql(item.query, undefined, undefined, (_, err) => {
+            console.log("Error in db creation:");
+            console.log(err);
+          });
+        });
+
+        // Next version to migrate would be migration key + 1÷
+        counter = parseInt(ver, 10) + 1;
+      }
+    });
+
+    // Add counter to the version number for how many times db is executed
+    if (counter === 0) {
+      tx.executeSql(`
+      INSERT INTO schema_version
+      VALUES (${counter});
+    `);
+
+      // Execute forms seeder here!!
+    } else {
+      // Add future migrations here for update
+      tx.executeSql(`
+    UPDATE schema_version
+    SET version=${counter};
+    `);
+    }
   };
 
   getDB() {
@@ -30,46 +62,8 @@ export default class FinanceDB {
       SELECT version FROM schema_version;
       `,
         undefined,
-        (_, { rows: { _array } }) => this.setVersionRecord(_array)
+        this.setVersionRecord(tx)
       );
-
-      const version = this.versionRecord.length
-        ? this.versionRecord[0].version
-        : 0;
-
-      let counter = 0;
-      // Execute migration based on the version
-      Object.keys(migrations).forEach((ver) => {
-        if (ver >= version) {
-          migrations[ver].forEach((item) => {
-            tx.executeSql(item.query, undefined, undefined, (_, err) => {
-              console.log("Error in db creation:");
-              console.log(err);
-            });
-          });
-
-          // Next version to migrate would be migration key + 1÷
-          counter = parseInt(ver, 10) + 1;
-
-          console.log("Updated version");
-        }
-      });
-
-      // Add counter to the version number for how many times db is executed
-      if (version === 0) {
-        tx.executeSql(`
-          INSERT INTO schema_version
-          VALUES (${counter});
-        `);
-
-        // Execute forms seeder here!!
-      } else {
-        // Add future migrations here for update
-        tx.executeSql(`
-        UPDATE schema_version
-        SET version = ${counter};
-        `);
-      }
     });
   }
 }

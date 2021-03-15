@@ -58,9 +58,9 @@ export default function HomeLayout() {
   useEffect(() => {
     const query = "SELECT * FROM transactions;";
 
-    selectData(query, undefined, (_, { rows: { _array } }) => {
-      console.log(_array);
-    });
+    // selectData(query, undefined, (_, { rows: { _array } }) => {
+    //   console.log(_array);
+    // });
   }, []);
 
   return (
