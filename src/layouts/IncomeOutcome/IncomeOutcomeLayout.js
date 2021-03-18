@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -20,6 +20,8 @@ function IncomeOutcomeLayout(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
+
+  console.log(route.params.selectedDate);
 
   const handleFormSubmit = (values) => {
     // TODO: Set category later
@@ -52,17 +54,23 @@ function IncomeOutcomeLayout(props) {
           >
             {({ isSubmitting, values, handleSubmit }) => (
               <>
-                <View style={styles.margin}>
-                  <Switch
-                    name="income"
-                    label={values.income ? "Income" : "Expense"}
-                  />
+                <View style={styles.my8}>
+                  <Text style={styles.selectedDayText}>
+                    Date: {route.params.selectedDate}
+                  </Text>
                 </View>
+
                 <View style={styles.margin}>
                   <TextField name="name" label="Name" />
                 </View>
                 <View style={styles.margin}>
                   <TextField name="amount" label="Amount" />
+                </View>
+                <View style={styles.margin}>
+                  <Switch
+                    name="income"
+                    label={values.income ? "Income" : "Expense"}
+                  />
                 </View>
                 <View style={styles.margin}>
                   <Button onPress={handleSubmit} disabled={isSubmitting}>

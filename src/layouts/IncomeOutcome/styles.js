@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { moderateScale } from "../../helpers";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -16,6 +18,13 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     marginTop: 8,
     marginBottom: 8,
+  },
+  my8: {
+    marginVertical: 8,
+  },
+  selectedDayText: {
+    fontSize: moderateScale(16),
+    fontWeight: "500",
   },
 });
 

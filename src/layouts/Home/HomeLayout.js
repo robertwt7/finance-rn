@@ -34,6 +34,7 @@ export default function HomeLayout() {
     dayjs().format("YYYY-MM-DD")
   );
   const navigation = useNavigation();
+  const [transactions, setTransactions] = useState([]);
 
   const handleClick = useCallback(
     (day) => {
@@ -58,9 +59,14 @@ export default function HomeLayout() {
   useEffect(() => {
     const query = "SELECT * FROM transactions;";
 
-    // selectData(query, undefined, (_, { rows: { _array } }) => {
-    //   console.log(_array);
-    // });
+    selectData(query, undefined, (_, { rows: { _array } }) => {
+      // console.log(_array);
+
+      // Set marked date
+
+      // Set transactions
+      setTransactions(_array);
+    });
   }, []);
 
   return (
