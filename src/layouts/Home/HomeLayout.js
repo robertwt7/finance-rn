@@ -4,7 +4,7 @@ import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
 import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { selectData } from "db/methods";
+import { executeSQL } from "db/methods";
 import { moderateScale } from "../../helpers";
 
 const styles = StyleSheet.create({
@@ -59,8 +59,8 @@ export default function HomeLayout() {
   useEffect(() => {
     const query = "SELECT * FROM transactions;";
 
-    selectData(query, undefined, (_, { rows: { _array } }) => {
-      // console.log(_array);
+    executeSQL(query, undefined, (_, { rows: { _array } }) => {
+      console.log(_array);
 
       // Set marked date
 

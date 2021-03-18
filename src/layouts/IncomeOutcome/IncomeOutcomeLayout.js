@@ -8,7 +8,7 @@ import {
   validationTransaction,
   formValues,
 } from "constants/forms/TransactionConst";
-import { insertData } from "db/methods";
+import { executeSQL } from "db/methods";
 import { TextField, Switch } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -21,14 +21,12 @@ function IncomeOutcomeLayout(props) {
   const route = useRoute();
   const dispatch = useDispatch();
 
-  console.log(route.params.selectedDate);
-
   const handleFormSubmit = (values) => {
     // TODO: Set category later
     // Insert data here
     const query =
-      "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?)";
-    insertData(
+      "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?)";
+    executeSQL(
       query,
       [values.name, values.income, values.amount, 0, route.params.selectedDate],
       (_, { rowsAffected }) => {
