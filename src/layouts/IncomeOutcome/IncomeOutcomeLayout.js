@@ -8,7 +8,7 @@ import {
   formValues,
 } from "constants/forms/TransactionConst";
 import { executeSQL } from "db/methods";
-import { TextField, Switch } from "components/forms";
+import { TextField, Switch, Select } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
@@ -21,6 +21,10 @@ function IncomeOutcomeLayout(props) {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
 
+  const handleAddCategory = () => {
+    navigation.push("CategoryForm");
+  };
+
   const handleFormSubmit = (values) => {
     // TODO: Set category later
     // Insert data here
@@ -28,7 +32,13 @@ function IncomeOutcomeLayout(props) {
       "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?)";
     executeSQL(
       query,
-      [values.name, values.income, values.amount, 0, route.params.selectedDate],
+      [
+        values.name,
+        values.income,
+        values.amount,
+        values.category,
+        route.params.selectedDate,
+      ],
       (_, { rowsAffected }) => {
         if (rowsAffected) {
           dispatch(
@@ -72,6 +82,12 @@ function IncomeOutcomeLayout(props) {
                   <TextField name="amount" label="Amount" />
                 </View>
                 <View style={styles.margin}>
+                  <Select name="category" data={categories} />
+                </View>
+                <View style={styles.margin}>
+                  <Button onPress={handleAddCategory}>Add Category</Button>
+                </View>
+                <View style={styles.margin}>
                   <Switch
                     name="income"
                     label={values.income ? "Income" : "Expense"}
@@ -79,7 +95,7 @@ function IncomeOutcomeLayout(props) {
                 </View>
                 <View style={styles.margin}>
                   <Button onPress={handleSubmit} disabled={isSubmitting}>
-                    Add
+                    Submit
                   </Button>
                 </View>
               </>
