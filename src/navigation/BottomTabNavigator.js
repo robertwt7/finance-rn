@@ -5,7 +5,6 @@ import { Button } from "react-native-elements";
 import { TabBarIcon } from "../components";
 import BudgetScreen from "../screens/BudgetScreen";
 import LinksScreen from "../screens/LinksScreen";
-import HomeScreen from "../screens/HomeScreen";
 import HomeNavigator from "./HomeNavigator";
 import { moderateScale } from "../helpers";
 import Colors from "../constants/Colors";
