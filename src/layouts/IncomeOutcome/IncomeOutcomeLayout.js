@@ -1,9 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import {
   validationTransaction,
   formValues,
@@ -20,6 +19,7 @@ function IncomeOutcomeLayout(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
+  const [categories, setCategories] = useState([]);
 
   const handleFormSubmit = (values) => {
     // TODO: Set category later
@@ -39,6 +39,13 @@ function IncomeOutcomeLayout(props) {
       }
     );
   };
+
+  useEffect(() => {
+    const query = "SELECT * from categories;";
+    executeSQL(query, undefined, (_, { rows: { _array } }) => {
+      setCategories(_array);
+    });
+  }, []);
 
   return (
     <KeyboardAwareScrollView style={styles.container}>

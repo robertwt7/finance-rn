@@ -8,11 +8,11 @@ import {
   formValues,
 } from "constants/forms/TransactionConst";
 import { executeSQL } from "db/methods";
-import { TextField, Switch } from "components/forms";
+import { TextField } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
-import styles from "./styles";
+import styles from "./Styles";
 
 function IncomeOutcomeLayout(props) {
   const [initial, setInitial] = useState(formValues);
