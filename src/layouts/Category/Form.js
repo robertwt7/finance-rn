@@ -12,7 +12,7 @@ import { TextField } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
-import styles from "./Styles";
+import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
   const [initial, setInitial] = useState(formValues);

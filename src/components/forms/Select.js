@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { IndexPath, Layout, Select, SelectItem } from "@ui-kitten/components";
+import { IndexPath, Select, SelectItem } from "@ui-kitten/components";
 import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 
 FormikSelect.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,
+  label: PropTypes.string,
 };
 
 export default function FormikSelect({ data, name, label }) {
