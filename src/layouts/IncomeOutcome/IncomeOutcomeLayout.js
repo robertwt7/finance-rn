@@ -82,7 +82,7 @@ function IncomeOutcomeLayout(props) {
                   <TextField name="amount" label="Amount" />
                 </View>
                 <View style={styles.margin}>
-                  <Select name="category" data={categories} />
+                  <Select name="category" label="Category" data={categories} />
                 </View>
                 <View style={styles.margin}>
                   <Button onPress={handleAddCategory}>Add Category</Button>

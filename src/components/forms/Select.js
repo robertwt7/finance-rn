@@ -9,9 +9,9 @@ FormikSelect.propTypes = {
   name: PropTypes.string,
 };
 
-export default function FormikSelect({ data, name }) {
+export default function FormikSelect({ data, name, label }) {
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const [displayValue, setDisplayValue] = useState("");
+  const [displayValue, setDisplayValue] = useState(" ");
   const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const handleSelect = (index) => {
@@ -26,7 +26,7 @@ export default function FormikSelect({ data, name }) {
       selectedIndex={selectedIndex}
       onSelect={handleSelect}
       value={displayValue}
-      size="medium"
+      label={label}
     >
       {data.map((item) => (
         <SelectItem title={item.name} key={item.id} />
