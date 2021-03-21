@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import * as lodash from "lodash";
 import { moderateScale } from "../../helpers";
+import TransactionList from "./TransactionList";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,16 +17,19 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(20),
     marginVertical: 8,
     fontWeight: "500",
+    textAlign: "center",
   },
   contentContainer: {
     flex: 1,
     padding: 8,
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonContainer: {
     padding: 8,
     marginTop: 8,
+  },
+  textCenter: {
+    textAlign: "center",
+    marginVertical: 8,
   },
 });
 
@@ -36,6 +40,7 @@ export default function HomeLayout() {
   );
   const navigation = useNavigation();
   const [transactions, setTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   const handleClick = useCallback(
     (day) => {
@@ -54,6 +59,10 @@ export default function HomeLayout() {
 
       // Use this later to set previous selected date as false when marking date in markedDate
       setSelectedDate(day.dateString);
+
+      setFilteredTransactions(
+        transactions.filter((item) => item.date === day.dateString)
+      );
     },
     [markedDate]
   );
@@ -63,12 +72,11 @@ export default function HomeLayout() {
   };
 
   useEffect(() => {
-    const query = "SELECT * FROM transactions;";
-
+    const query =
+      "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
     executeSQL(query, undefined, (_, { rows: { _array } }) => {
-      console.log(_array);
-
       // Set marked date
+      // All same date data will be removed though
       const processedData = lodash.keyBy(_array, (item) => item.date);
       Object.keys(processedData).forEach((item) => {
         processedData[item] = {
@@ -80,6 +88,7 @@ export default function HomeLayout() {
         ...markedDate,
         ...processedData,
       });
+      console.log(_array);
 
       // Set transactions
       setTransactions(_array);
@@ -124,9 +133,18 @@ export default function HomeLayout() {
         <Text style={styles.selectedDayText}>
           {dayjs(selectedDate).format("DD MMM YYYY")}
         </Text>
-        <Text>
-          There is nothing here.. please add expense or income for selected day{" "}
-        </Text>
+        {filteredTransactions.length > 0 ? (
+          <View>
+            <TransactionList
+              data={transactions.filter((item) => item.date !== selectedDate)}
+            />
+          </View>
+        ) : (
+          <Text style={styles.textCenter}>
+            There is nothing here.. please add expense or income for selected
+            day
+          </Text>
+        )}
         <View style={styles.buttonContainer}>
           <Button
             title="Add Income/Outcome"
