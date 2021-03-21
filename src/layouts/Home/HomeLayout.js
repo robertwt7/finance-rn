@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
+import * as lodash from "lodash";
 import { moderateScale } from "../../helpers";
 
 const styles = StyleSheet.create({
@@ -39,9 +40,14 @@ export default function HomeLayout() {
   const handleClick = useCallback(
     (day) => {
       setMarkedDate({
+        ...markedDate,
+        [selectedDate]: {
+          ...markedDate[selectedDate],
+          selected: false,
+        },
         [day.dateString]: {
+          ...markedDate[day.dateString],
           selected: true,
-          marked: true,
           selectedColor: "#3f51b5",
         },
       });
@@ -63,6 +69,17 @@ export default function HomeLayout() {
       console.log(_array);
 
       // Set marked date
+      const processedData = lodash.keyBy(_array, (item) => item.date);
+      Object.keys(processedData).forEach((item) => {
+        processedData[item] = {
+          ...processedData[item],
+          marked: true,
+        };
+      });
+      setMarkedDate({
+        ...markedDate,
+        ...processedData,
+      });
 
       // Set transactions
       setTransactions(_array);
