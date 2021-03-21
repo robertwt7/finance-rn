@@ -24,7 +24,7 @@ function IncomeOutcomeLayout(props) {
     executeSQL(query, [values.name], (_, { rowsAffected }) => {
       if (rowsAffected) {
         dispatch(messageActions.showMessage({ message: "Categories created" }));
-        setTimeout(() => navigation.goBack(), 1000);
+        setTimeout(() => navigation.navigate("IncomeOutcome"), 1000);
       }
     });
   };

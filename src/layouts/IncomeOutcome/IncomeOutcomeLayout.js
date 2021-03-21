@@ -20,10 +20,13 @@ function IncomeOutcomeLayout(props) {
   const route = useRoute();
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
-
   const handleAddCategory = () => {
     navigation.push("CategoryForm");
   };
+  const query = "SELECT * from categories;";
+  executeSQL(query, undefined, (_, { rows: { _array } }) => {
+    setCategories(_array);
+  });
 
   const handleFormSubmit = (values) => {
     // TODO: Set category later
@@ -49,13 +52,6 @@ function IncomeOutcomeLayout(props) {
       }
     );
   };
-
-  useEffect(() => {
-    const query = "SELECT * from categories;";
-    executeSQL(query, undefined, (_, { rows: { _array } }) => {
-      setCategories(_array);
-    });
-  }, []);
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
@@ -85,7 +81,7 @@ function IncomeOutcomeLayout(props) {
                   <Select name="category" label="Category" data={categories} />
                 </View>
                 <View style={styles.margin}>
-                  <Button onPress={handleAddCategory}>Add Category</Button>
+                  <Button onPress={handleAddCategory}>Add New Category</Button>
                 </View>
                 <View style={styles.margin}>
                   <Switch
