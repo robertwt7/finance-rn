@@ -17,12 +17,12 @@ export default function HomeNavigator() {
       />
       <HomeStack.Screen
         name="CategoryList"
-        component={CategoryFormScreen}
+        component={CategoryListSCreen}
         options={{ title: "Category List" }}
       />
       <HomeStack.Screen
         name="CategoryForm"
-        component={CategoryListSCreen}
+        component={CategoryFormScreen}
         options={{ title: "Category Form" }}
       />
     </HomeStack.Navigator>

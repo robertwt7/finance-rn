@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     fontSize: 20,
-    marginBottom: 1,
   },
   input: {
     height: 20,
@@ -15,7 +14,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   margin: {
-    alignSelf: "stretch",
     marginTop: 8,
     marginBottom: 8,
   },
