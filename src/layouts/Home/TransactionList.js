@@ -31,6 +31,5 @@ export default function TransactionList({ data }) {
 const styles = StyleSheet.create({
   container: {
     maxHeight: 192,
-    width: "100%",
   },
 });
