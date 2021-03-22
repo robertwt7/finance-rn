@@ -88,7 +88,6 @@ export default function HomeLayout() {
         ...markedDate,
         ...processedData,
       });
-      console.log(_array);
 
       // Set transactions
       setTransactions(_array);
