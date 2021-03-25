@@ -16,7 +16,7 @@ const config = {
 export const rootReducer = persistCombineReducers(config, {
   budget: budget.reducer,
   message: message.reducer,
-  date: message.reducer,
+  date: date.reducer,
 });
 
 // Do a redux saga if available

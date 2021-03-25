@@ -6,11 +6,11 @@ export const actionTypes = {
   CHANGE_DATE: "[CHANGE DATE]",
 };
 
-const initialMessageState = {
+const initialDateState = {
   selectedDate: dayjs().format("YYYY-MM-DD"),
 };
 
-export const reducer = (state = initialMessageState, action) => {
+export const reducer = (state = initialDateState, action) => {
   switch (action.type) {
     case actionTypes.CHANGE_DATE: {
       return {
