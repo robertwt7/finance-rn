@@ -37,8 +37,6 @@ function IncomeOutcomeLayout(props) {
   }, [selectedDate, formValues]);
 
   const handleFormSubmit = (values) => {
-    // TODO: Set category later
-    // Insert data here
     const submitQuery =
       "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?)";
     executeSQL(
