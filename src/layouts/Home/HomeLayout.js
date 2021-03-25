@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 8,
   },
+  textLg: {
+    fontSize: 16,
+  },
 });
 
 export default function HomeLayout() {
@@ -130,9 +133,6 @@ export default function HomeLayout() {
         enableSwipeMonths
       />
       <View style={styles.contentContainer}>
-        <Text style={styles.selectedDayText}>
-          {dayjs(selectedDate).format("DD MMM YYYY")}
-        </Text>
         {filteredTransactions.length > 0 ? (
           <View>
             <TransactionList
@@ -140,19 +140,13 @@ export default function HomeLayout() {
             />
           </View>
         ) : (
-          <Text style={styles.textCenter}>
-            There is nothing here.. please add expense or income for selected
-            day
-          </Text>
+          <View style={{ height: "100%", justifyContent: "center" }}>
+            <Text style={[styles.textCenter, styles.textLg]}>
+              There is nothing here.. please add expense or income for selected
+              day
+            </Text>
+          </View>
         )}
-
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Add Income/Outcome"
-            style={{ padding: 8 }}
-            onPress={handleIncomeCLick}
-          />
-        </View>
       </View>
     </View>
   );
