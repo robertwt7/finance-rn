@@ -1,13 +1,19 @@
 import React from "react";
 import { Calendar, Text } from "@ui-kitten/components";
-import { useFormikContext } from "formik";
+import { useFormikContext, useField } from "formik";
+import dayjs from "dayjs";
+import PropTypes from "prop-types";
+
+FormikCalendar.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};
 
 const FormikCalendar = ({ name, label }) => {
-  const [date, setDate] = React.useState(new Date());
   const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [field, meta] = useField(name);
 
   const handleSelect = (nextDate) => {
-    setDate(nextDate);
     setFieldValue(name, nextDate);
     setFieldTouched(name, true);
   };
@@ -15,9 +21,11 @@ const FormikCalendar = ({ name, label }) => {
   return (
     <>
       <Text category="h5">{label}</Text>
-      <Text category="h6">Selected date: {date.toLocaleDateString()}</Text>
+      <Text category="h6">
+        Selected date: {dayjs(field.value).format("DD MMM YYYY")}
+      </Text>
 
-      <Calendar date={date} onSelect={handleSelect} />
+      <Calendar date={field.value} onSelect={handleSelect} />
     </>
   );
 };

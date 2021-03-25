@@ -6,6 +6,8 @@ import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import * as lodash from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as dateActions } from "store/ducks/date.duck";
 import { moderateScale } from "../../helpers";
 import TransactionList from "./TransactionList";
 
@@ -35,12 +37,11 @@ const styles = StyleSheet.create({
 
 export default function HomeLayout() {
   const [markedDate, setMarkedDate] = useState({});
-  const [selectedDate, setSelectedDate] = useState(
-    dayjs().format("YYYY-MM-DD")
-  );
   const navigation = useNavigation();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const dispatch = useDispatch();
+  const { selectedDate } = useSelector((state) => state.date);
 
   const handleClick = useCallback(
     (day) => {
@@ -58,13 +59,13 @@ export default function HomeLayout() {
       });
 
       // Use this later to set previous selected date as false when marking date in markedDate
-      setSelectedDate(day.dateString);
+      dispatch(dateActions.changeDate(day.dateString));
 
       setFilteredTransactions(
         transactions.filter((item) => item.date === day.dateString)
       );
     },
-    [markedDate]
+    [markedDate, selectedDate]
   );
 
   const handleIncomeCLick = () => {
@@ -144,6 +145,7 @@ export default function HomeLayout() {
             day
           </Text>
         )}
+
         <View style={styles.buttonContainer}>
           <Button
             title="Add Income/Outcome"

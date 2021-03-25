@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { useDispatch } from "react-redux";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import {
   validationTransaction,
@@ -12,12 +12,12 @@ import { TextField, Switch, Select } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
+import dayjs from "dayjs";
 import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
   const [initial, setInitial] = useState(formValues);
   const navigation = useNavigation();
-  const route = useRoute();
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const handleAddCategory = () => {
@@ -27,20 +27,28 @@ function IncomeOutcomeLayout(props) {
   executeSQL(query, undefined, (_, { rows: { _array } }) => {
     setCategories(_array);
   });
+  const { selectedDate } = useSelector((state) => state.date);
+
+  useEffect(() => {
+    setInitial({
+      ...formValues,
+      date: dayjs(selectedDate),
+    });
+  }, [selectedDate, formValues]);
 
   const handleFormSubmit = (values) => {
     // TODO: Set category later
     // Insert data here
-    const query =
+    const submitQuery =
       "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?)";
     executeSQL(
-      query,
+      submitQuery,
       [
         values.name,
         values.income,
         values.amount,
         values.category,
-        route.params.selectedDate,
+        dayjs(values.date).format("YYYY-MM-DD"),
       ],
       (_, { rowsAffected }) => {
         if (rowsAffected) {
@@ -67,7 +75,7 @@ function IncomeOutcomeLayout(props) {
               <>
                 <View style={styles.my8}>
                   <Text style={styles.selectedDayText}>
-                    Date: {route.params.selectedDate}
+                    Date: {dayjs(values.date).format("YYYY-MM-DD")}
                   </Text>
                 </View>
 

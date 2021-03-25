@@ -3,6 +3,7 @@ import { persistCombineReducers } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as message from "./ducks/message.duck";
 import * as budget from "./ducks/budget.duck";
+import * as date from "./ducks/date.duck";
 
 const config = {
   key: "root",
@@ -15,6 +16,7 @@ const config = {
 export const rootReducer = persistCombineReducers(config, {
   budget: budget.reducer,
   message: message.reducer,
+  date: message.reducer,
 });
 
 // Do a redux saga if available

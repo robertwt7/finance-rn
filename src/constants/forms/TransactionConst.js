@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import dayjs from "dayjs";
 
 export const validationTransaction = yup.object().shape({
   name: yup.string().required("Required"),
@@ -10,6 +11,7 @@ const values = {
   income: 0,
   category_id: "",
   amount: 0,
+  date: dayjs(),
 };
 
 export const formValues = values;

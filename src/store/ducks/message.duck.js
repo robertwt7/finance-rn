@@ -15,6 +15,7 @@ export const reducer = (state = initialMessageState, action) => {
   switch (action.type) {
     case actionTypes.showMessage: {
       return {
+        ...state,
         open: true,
         message: action.payload.message,
       };
