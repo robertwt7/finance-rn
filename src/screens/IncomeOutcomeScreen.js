@@ -6,7 +6,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { IncomeOutcomeLayout } from "../layouts/IncomeOutcome";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
@@ -16,6 +16,7 @@ function IncomeOutcomeScreen() {
   const navigateBack = () => {
     navigation.goBack();
   };
+  const route = useRoute();
 
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
@@ -23,7 +24,7 @@ function IncomeOutcomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation
-        title="Income Outcome Form"
+        title={`${route.params.income ? "Income" : "Outcome"} Form`}
         alignment="center"
         accessoryLeft={BackAction}
       />

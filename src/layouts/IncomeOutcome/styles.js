@@ -20,9 +20,13 @@ const styles = StyleSheet.create({
   my8: {
     marginVertical: 8,
   },
+  title: {
+    fontSize: moderateScale(16),
+    fontWeight: "400",
+  },
   selectedDayText: {
     fontSize: moderateScale(16),
-    fontWeight: "500",
+    fontWeight: "400",
   },
 });
 

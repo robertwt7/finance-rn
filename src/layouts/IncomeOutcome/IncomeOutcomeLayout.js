@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Formik } from "formik";
 import {
   validationTransaction,
@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
+  const route = useRoute();
   const [initial, setInitial] = useState(formValues);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function IncomeOutcomeLayout(props) {
       submitQuery,
       [
         values.name,
-        values.income,
+        route.params.income,
         values.amount,
         values.category,
         dayjs(values.date).format("YYYY-MM-DD"),
@@ -88,12 +89,6 @@ function IncomeOutcomeLayout(props) {
                 </View>
                 <View style={styles.margin}>
                   <Button onPress={handleAddCategory}>Add New Category</Button>
-                </View>
-                <View style={styles.margin}>
-                  <Switch
-                    name="income"
-                    label={values.income ? "Income" : "Expense"}
-                  />
                 </View>
                 <View style={styles.margin}>
                   <Button onPress={handleSubmit} disabled={isSubmitting}>
