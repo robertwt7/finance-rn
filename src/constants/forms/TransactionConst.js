@@ -11,7 +11,7 @@ const values = {
   income: 0,
   category_id: "",
   amount: 0,
-  date: dayjs(),
+  date: new Date(),
 };
 
 export const formValues = values;

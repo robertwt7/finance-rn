@@ -5,7 +5,7 @@ import { selectData } from "db/methods";
 const filter = (item, query) =>
   item.title.toLowerCase().includes(query.toLowerCase());
 
-export default function AutocompleteSimpleUsageShowcase() {
+export default function FormikAutoComplete() {
   const [value, setValue] = React.useState(null);
   const [data, setData] = React.useState([]);
 

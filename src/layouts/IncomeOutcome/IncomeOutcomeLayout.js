@@ -8,7 +8,7 @@ import {
   formValues,
 } from "constants/forms/TransactionConst";
 import { executeSQL } from "db/methods";
-import { TextField, Switch, Select } from "components/forms";
+import { TextField, Switch, Select, CalendarInput } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
@@ -73,24 +73,21 @@ function IncomeOutcomeLayout(props) {
             {({ isSubmitting, values, handleSubmit }) => (
               <>
                 <View style={styles.my8}>
-                  <Text style={styles.selectedDayText}>
-                    Date: {dayjs(values.date).format("YYYY-MM-DD")}
-                  </Text>
+                  <CalendarInput name="date" label="Date" />
                 </View>
-
-                <View style={styles.margin}>
+                <View style={styles.my8}>
                   <TextField name="name" label="Name" />
                 </View>
-                <View style={styles.margin}>
+                <View style={styles.my8}>
                   <TextField name="amount" label="Amount" />
                 </View>
-                <View style={styles.margin}>
+                <View style={styles.my8}>
                   <Select name="category" label="Category" data={categories} />
                 </View>
-                <View style={styles.margin}>
+                <View style={styles.my8}>
                   <Button onPress={handleAddCategory}>Add New Category</Button>
                 </View>
-                <View style={styles.margin}>
+                <View style={styles.my8}>
                   <Button onPress={handleSubmit} disabled={isSubmitting}>
                     Submit
                   </Button>

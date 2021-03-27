@@ -3,11 +3,15 @@ import { Calendar, Text } from "@ui-kitten/components";
 import { useFormikContext, useField } from "formik";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import { StyleSheet } from "react-native";
+import { moderateScale } from "helpers";
 
-FormikCalendar.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-};
+const styles = StyleSheet.create({
+  title: {
+    fontSize: moderateScale(16),
+    fontWeight: "400",
+  },
+});
 
 const FormikCalendar = ({ name, label }) => {
   const { setFieldValue, setFieldTouched } = useFormikContext();
@@ -19,15 +23,22 @@ const FormikCalendar = ({ name, label }) => {
   };
 
   return (
-    <>
-      <Text category="h5">{label}</Text>
-      <Text category="h6">
-        Selected date: {dayjs(field.value).format("DD MMM YYYY")}
-      </Text>
+    field.value && (
+      <>
+        <Text style={styles.title}>{label}</Text>
+        <Text style={styles.title}>
+          Selected date: {dayjs(field.value).format("DD MMM YYYY")}
+        </Text>
 
-      <Calendar date={field.value} onSelect={handleSelect} />
-    </>
+        <Calendar date={new Date(field.value)} onSelect={handleSelect} />
+      </>
+    )
   );
+};
+
+FormikCalendar.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
 };
 
 export default FormikCalendar;

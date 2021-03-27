@@ -13,10 +13,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     textAlign: "center",
   },
-  margin: {
-    marginTop: 8,
-    marginBottom: 8,
-  },
   my8: {
     marginVertical: 8,
   },
