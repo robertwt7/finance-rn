@@ -49,24 +49,26 @@ export default function HomeLayout() {
   useEffect(() => {
     const query =
       "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
-    executeSQL(query, undefined, (_, { rows: { _array } }) => {
-      // Set marked date
-      // All same date data will be removed though
-      const processedData = lodash.keyBy(_array, (item) => item.date);
-      Object.keys(processedData).forEach((item) => {
-        processedData[item] = {
-          ...processedData[item],
-          marked: true,
-        };
-      });
-      setMarkedDate({
-        ...markedDate,
-        ...processedData,
-      });
+    if (isFocused) {
+      executeSQL(query, undefined, (_, { rows: { _array } }) => {
+        // Set marked date
+        // All same date data will be removed though
+        const processedData = lodash.keyBy(_array, (item) => item.date);
+        Object.keys(processedData).forEach((item) => {
+          processedData[item] = {
+            ...processedData[item],
+            marked: true,
+          };
+        });
+        setMarkedDate({
+          ...markedDate,
+          ...processedData,
+        });
 
-      // Set transactions
-      setTransactions(_array);
-    });
+        // Set transactions
+        setTransactions(_array);
+      });
+    }
   }, [setTransactions, isFocused]);
 
   const handleClick = useCallback(
