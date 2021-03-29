@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
 import { Button } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import * as lodash from "lodash";
 import { useSelector, useDispatch } from "react-redux";
@@ -40,40 +40,11 @@ const styles = StyleSheet.create({
 
 export default function HomeLayout() {
   const [markedDate, setMarkedDate] = useState({});
-  const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.date);
-
-  const handleClick = useCallback(
-    (day) => {
-      setMarkedDate({
-        ...markedDate,
-        [selectedDate]: {
-          ...markedDate[selectedDate],
-          selected: false,
-        },
-        [day.dateString]: {
-          ...markedDate[day.dateString],
-          selected: true,
-          selectedColor: "#3f51b5",
-        },
-      });
-
-      // Use this later to set previous selected date as false when marking date in markedDate
-      dispatch(dateActions.changeDate(day.dateString));
-
-      setFilteredTransactions(
-        transactions.filter((item) => item.date === day.dateString)
-      );
-    },
-    [markedDate, selectedDate]
-  );
-
-  const handleIncomeCLick = () => {
-    navigation.push("IncomeOutcome", { selectedDate });
-  };
 
   useEffect(() => {
     const query =
@@ -96,7 +67,29 @@ export default function HomeLayout() {
       // Set transactions
       setTransactions(_array);
     });
-  }, []);
+  }, [setTransactions, isFocused]);
+
+  const handleClick = useCallback(
+    (day) => {
+      // Set marked date
+      setMarkedDate({
+        ...markedDate,
+        [day.dateString]: {
+          ...markedDate[day.dateString],
+          selected: true,
+          selectedColor: "#3f51b5",
+        },
+      });
+
+      // Use this later to set previous selected date as false when marking date in markedDate
+      dispatch(dateActions.changeDate(day.dateString));
+
+      setFilteredTransactions(
+        transactions.filter((item) => item.date === day.dateString)
+      );
+    },
+    [transactions, markedDate]
+  );
 
   return (
     <View style={styles.container}>
