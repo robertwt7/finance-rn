@@ -1,9 +1,10 @@
-import React from "react";
-import { Calendar, Text } from "@ui-kitten/components";
+import React, { useState } from "react";
+import { Calendar, Button, Text, Popover } from "@ui-kitten/components";
+import { Pressable, StyleSheet } from "react-native";
 import { useFormikContext, useField } from "formik";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { StyleSheet } from "react-native";
+
 import { moderateScale } from "helpers";
 
 const styles = StyleSheet.create({
@@ -16,21 +17,40 @@ const styles = StyleSheet.create({
 const FormikCalendar = ({ name, label }) => {
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const [field, meta] = useField(name);
+  const [visible, setVisible] = useState(false);
 
   const handleSelect = (nextDate) => {
     setFieldValue(name, nextDate);
     setFieldTouched(name, true);
   };
 
+  const renderToggleCalendar = () => (
+    <Pressable
+      onPress={() => setVisible(true)}
+      style={({ pressed }) => [
+        {
+          backgroundColor: pressed ? "rgba(63, 81, 181, 0.08)" : "transparent",
+          paddingVertical: 8,
+        },
+      ]}
+    >
+      <Text style={styles.title}>
+        {label}: {dayjs(field.value).format("DD MMM YYYY")}
+      </Text>
+    </Pressable>
+  );
+
   return (
     field.value && (
       <>
-        <Text style={styles.title}>{label}</Text>
-        <Text style={styles.title}>
-          Selected date: {dayjs(field.value).format("DD MMM YYYY")}
-        </Text>
-
-        <Calendar date={new Date(field.value)} onSelect={handleSelect} />
+        <Popover
+          anchor={renderToggleCalendar}
+          visible={visible}
+          placement="bottom"
+          onBackdropPress={() => setVisible(false)}
+        >
+          <Calendar date={new Date(field.value)} onSelect={handleSelect} />
+        </Popover>
       </>
     )
   );
