@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Text } from "@ui-kitten/components";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
-import { Button } from "react-native-elements";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import * as lodash from "lodash";
@@ -38,6 +38,18 @@ const styles = StyleSheet.create({
   },
   textLg: {
     fontSize: 16,
+  },
+  text3xl: {
+    fontSize: 28,
+  },
+  textSemibold: {
+    fontWeight: "400",
+  },
+  m8: {
+    margin: 8,
+  },
+  ml16: {
+    marginLeft: 16,
   },
 });
 
@@ -137,9 +149,17 @@ export default function HomeLayout() {
       <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
           <ThemedView style={styles.flex1}>
-            <TransactionList
-              data={transactions.filter((item) => item.date !== selectedDate)}
-            />
+            <Text
+              style={[styles.text3xl, styles.textBold, styles.m8, styles.ml16]}
+              status="basic"
+            >
+              Transactions
+            </Text>
+            <ThemedView style={[styles.m8, styles.flex1]}>
+              <TransactionList
+                data={transactions.filter((item) => item.date !== selectedDate)}
+              />
+            </ThemedView>
           </ThemedView>
         ) : (
           <View style={{ height: "100%", justifyContent: "center" }}>
