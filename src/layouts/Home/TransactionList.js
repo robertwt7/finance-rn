@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Icon, List, ListItem } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { Button, Icon, List, ListItem, Text } from "@ui-kitten/components";
+import { StyleSheet, Pressable, View } from "react-native";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -19,9 +19,10 @@ export default function TransactionList({ data }) {
 
   const renderItem = ({ item, index }) => (
     <ListItem
-      title={`${item.name} ${item.amount}`}
+      title={`${item.name}`}
       description={`${item.category_name}`}
       accessoryLeft={renderItemIcon(item.income)}
+      accessoryRight={() => <Text category="s1">${item.amount}</Text>}
     />
   );
 
@@ -32,5 +33,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "transparent",
+  },
+  w100: {
+    width: "100%",
+  },
+  justifyBetween: {
+    justifyContent: "space-between",
+  },
+  flexRow: {
+    flexDirection: "row",
   },
 });
