@@ -8,6 +8,7 @@ import { executeSQL } from "db/methods";
 import * as lodash from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as dateActions } from "store/ducks/date.duck";
+import { ThemedView } from "components";
 import { moderateScale } from "../../helpers";
 import TransactionList from "./TransactionList";
 
@@ -21,9 +22,11 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
-  contentContainer: {
+  flex1: {
     flex: 1,
-    padding: 8,
+  },
+  backgroundWhite: {
+    backgroundColor: "#fff",
   },
   buttonContainer: {
     padding: 8,
@@ -131,13 +134,13 @@ export default function HomeLayout() {
         // Enable the option to swipe between months. Default = false
         enableSwipeMonths
       />
-      <View style={styles.contentContainer}>
+      <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
-          <View>
+          <ThemedView style={styles.flex1}>
             <TransactionList
               data={transactions.filter((item) => item.date !== selectedDate)}
             />
-          </View>
+          </ThemedView>
         ) : (
           <View style={{ height: "100%", justifyContent: "center" }}>
             <Text style={[styles.textCenter, styles.textLg]}>

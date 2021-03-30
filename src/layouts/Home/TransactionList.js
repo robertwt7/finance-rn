@@ -30,6 +30,7 @@ export default function TransactionList({ data }) {
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: 192,
+    flex: 1,
+    backgroundColor: "transparent",
   },
 });
