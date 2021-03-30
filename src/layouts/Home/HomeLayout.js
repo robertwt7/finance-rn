@@ -76,6 +76,10 @@ export default function HomeLayout() {
       // Set marked date
       setMarkedDate({
         ...markedDate,
+        [selectedDate]: {
+          ...markedDate[selectedDate],
+          selected: false,
+        },
         [day.dateString]: {
           ...markedDate[day.dateString],
           selected: true,
