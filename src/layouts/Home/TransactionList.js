@@ -3,6 +3,7 @@ import { Button, Icon, List, ListItem, Text } from "@ui-kitten/components";
 import { StyleSheet, Pressable, View } from "react-native";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
+import { GmailStyleSwipeableRow } from "components";
 
 TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
@@ -24,12 +25,14 @@ export default function TransactionList({ data }) {
   );
 
   const renderItem = ({ item, index }) => (
-    <ListItem
-      title={`${item.name}`}
-      description={`${item.category_name}`}
-      accessoryLeft={renderItemIcon(item.income)}
-      accessoryRight={renderAmount(item.income, item.amount)}
-    />
+    <GmailStyleSwipeableRow>
+      <ListItem
+        title={`${item.name}`}
+        description={`${item.category_name}`}
+        accessoryLeft={renderItemIcon(item.income)}
+        accessoryRight={renderAmount(item.income, item.amount)}
+      />
+    </GmailStyleSwipeableRow>
   );
 
   return <List style={styles.container} data={data} renderItem={renderItem} />;
