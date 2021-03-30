@@ -8,6 +8,12 @@ TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
 };
 
+const renderAmount = (income, amount) => () => (
+  <Text category="s1">
+    {income ? "+" : "-"}${amount}
+  </Text>
+);
+
 export default function TransactionList({ data }) {
   const renderItemIcon = (income) => (props) => (
     <Ionicons
@@ -22,7 +28,7 @@ export default function TransactionList({ data }) {
       title={`${item.name}`}
       description={`${item.category_name}`}
       accessoryLeft={renderItemIcon(item.income)}
-      accessoryRight={() => <Text category="s1">${item.amount}</Text>}
+      accessoryRight={renderAmount(item.income, item.amount)}
     />
   );
 
