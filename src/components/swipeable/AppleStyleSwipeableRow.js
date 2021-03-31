@@ -44,7 +44,13 @@ export default class AppleStyleSwipeableRow extends Component {
         flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
       }}
     >
-      {this.renderRightAction("Edit", "#ffab00", 128, progress, () => {})}
+      {this.renderRightAction(
+        "Edit",
+        "#ffab00",
+        128,
+        progress,
+        this.props.onEdit
+      )}
       {this.renderRightAction(
         "Delete",
         "#dd2c00",
@@ -80,8 +86,8 @@ export default class AppleStyleSwipeableRow extends Component {
 }
 
 AppleStyleSwipeableRow.propTypes = {
-  onDelete: PropTypes.func,
-  onEdit: PropTypes.func,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

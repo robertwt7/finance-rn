@@ -39,7 +39,7 @@ function IncomeOutcomeLayout(props) {
 
   const handleFormSubmit = (values) => {
     const submitQuery =
-      "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?)";
+      "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?);";
     executeSQL(
       submitQuery,
       [
