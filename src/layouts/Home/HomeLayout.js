@@ -156,9 +156,7 @@ export default function HomeLayout() {
               Transactions
             </Text>
             <ThemedView style={[styles.m8, styles.flex1]}>
-              <TransactionList
-                data={transactions.filter((item) => item.date !== selectedDate)}
-              />
+              <TransactionList data={filteredTransactions} />
             </ThemedView>
           </ThemedView>
         ) : (
