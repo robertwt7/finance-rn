@@ -31,7 +31,10 @@ export default function TransactionList({ data }) {
 
   const handleDelete = (id) => () => {
     const deleteQuery = "DELETE FROM transactions WHERE id = ?;";
-    executeSQL(deleteQuery, id, (_, { rowsAffected }) => {
+    executeSQL(deleteQuery, [id], (_, { rowsAffected }) => {
+      console.log(id);
+      console.log("In here affected");
+      console.log(rowsAffected);
       if (rowsAffected) {
         dispatch(messageActions.showMessage({ message: "Delete success" }));
       }
@@ -43,6 +46,7 @@ export default function TransactionList({ data }) {
   const renderItem = ({ item, index }) => {
     return (
       <AppleStyleSwipeableRow
+        key={item.id}
         onDelete={handleDelete(item.id)}
         onEdit={handleEdit(item.id)}
       >
