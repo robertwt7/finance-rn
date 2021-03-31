@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Animated, StyleSheet, Text, View, I18nManager } from "react-native";
-
+import PropTypes from "prop-types";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 
 export default class AppleStyleSwipeableRow extends Component {
@@ -16,14 +16,14 @@ export default class AppleStyleSwipeableRow extends Component {
     );
   };
 
-  renderRightAction = (text, color, x, progress) => {
+  renderRightAction = (text, color, x, progress, onClick) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
       outputRange: [x, 0],
     });
     const pressHandler = () => {
       this.close();
-      alert(text);
+      onClick();
     };
     return (
       <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>
@@ -40,13 +40,18 @@ export default class AppleStyleSwipeableRow extends Component {
   renderRightActions = (progress) => (
     <View
       style={{
-        width: 192,
+        width: 128,
         flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
       }}
     >
-      {this.renderRightAction("More", "#C8C7CD", 192, progress)}
-      {this.renderRightAction("Flag", "#ffab00", 128, progress)}
-      {this.renderRightAction("More", "#dd2c00", 64, progress)}
+      {this.renderRightAction("Edit", "#ffab00", 128, progress, () => {})}
+      {this.renderRightAction(
+        "Delete",
+        "#dd2c00",
+        64,
+        progress,
+        this.props.onDelete
+      )}
     </View>
   );
 
@@ -66,7 +71,6 @@ export default class AppleStyleSwipeableRow extends Component {
         friction={2}
         leftThreshold={30}
         rightThreshold={40}
-        renderLeftActions={this.renderLeftActions}
         renderRightActions={this.renderRightActions}
       >
         {children}
@@ -74,6 +78,11 @@ export default class AppleStyleSwipeableRow extends Component {
     );
   }
 }
+
+AppleStyleSwipeableRow.propTypes = {
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
   leftAction: {
