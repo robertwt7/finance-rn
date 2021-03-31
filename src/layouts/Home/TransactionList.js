@@ -1,12 +1,13 @@
 import React from "react";
-import { Button, Icon, List, ListItem, Text } from "@ui-kitten/components";
-import { StyleSheet, Pressable, View } from "react-native";
+import { List, ListItem, Text } from "@ui-kitten/components";
+import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import { AppleStyleSwipeableRow } from "components";
 import { executeSQL } from "db/methods";
 import { useDispatch } from "react-redux";
 import { actions as messageActions } from "store/ducks/message.duck";
+import { useNavigation } from "@react-navigation/native";
 
 TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
@@ -20,6 +21,7 @@ const renderAmount = (income, amount) => () => (
 
 export default function TransactionList({ data }) {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const renderItemIcon = (income) => (props) => (
     <Ionicons
@@ -32,16 +34,23 @@ export default function TransactionList({ data }) {
   const handleDelete = (id) => () => {
     const deleteQuery = "DELETE FROM transactions WHERE id = ?;";
     executeSQL(deleteQuery, [id], (_, { rowsAffected }) => {
-      console.log(id);
-      console.log("In here affected");
-      console.log(rowsAffected);
       if (rowsAffected) {
         dispatch(messageActions.showMessage({ message: "Delete success" }));
+        // TODO: Find a way to refresh the page list at home
       }
     });
   };
 
-  const handleEdit = (id) => () => {};
+  const handleEdit = (id) => () => {
+    const selectQuery = "SELECT * FROM transactions WHERE id = ?;";
+
+    executeSQL(selectQuery, [id], (_, { rows: { _array } }) => {
+      const result = _array[0];
+      if (result) {
+        navigation.navigate("IncomeOutcome", { income: result.income, result });
+      }
+    });
+  };
 
   const renderItem = ({ item, index }) => {
     return (
