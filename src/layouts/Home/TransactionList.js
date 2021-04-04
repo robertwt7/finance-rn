@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
+  handleDeleteItem: PropTypes.func,
 };
 
 const renderAmount = (income, amount) => () => (
