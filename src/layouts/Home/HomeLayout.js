@@ -9,6 +9,7 @@ import * as lodash from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as dateActions } from "store/ducks/date.duck";
 import { ThemedView } from "components";
+import { actions as messageActions } from "store/ducks/message.duck";
 import { moderateScale } from "../../helpers";
 import TransactionList from "./TransactionList";
 
@@ -61,7 +62,7 @@ export default function HomeLayout() {
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.date);
 
-  useEffect(() => {
+  const getTransactions = () => {
     const query =
       "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
     if (isFocused) {
@@ -84,7 +85,21 @@ export default function HomeLayout() {
         setTransactions(_array);
       });
     }
+  };
+
+  useEffect(() => {
+    getTransactions();
   }, [setTransactions, isFocused]);
+
+  const handleDeleteItem = (id) => () => {
+    const deleteQuery = "DELETE FROM transactions WHERE id = ?;";
+    executeSQL(deleteQuery, [id], (_, { rowsAffected }) => {
+      if (rowsAffected) {
+        dispatch(messageActions.showMessage({ message: "Delete success" }));
+        getTransactions();
+      }
+    });
+  };
 
   const handleClick = useCallback(
     (day) => {
@@ -156,7 +171,10 @@ export default function HomeLayout() {
               Transactions
             </Text>
             <ThemedView style={[styles.m8, styles.flex1]}>
-              <TransactionList data={filteredTransactions} />
+              <TransactionList
+                data={filteredTransactions}
+                handleDeleteItem={handleDeleteItem}
+              />
             </ThemedView>
           </ThemedView>
         ) : (

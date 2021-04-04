@@ -19,7 +19,7 @@ const renderAmount = (income, amount) => () => (
   </Text>
 );
 
-export default function TransactionList({ data }) {
+export default function TransactionList({ data, handleDeleteItem }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -30,16 +30,6 @@ export default function TransactionList({ data }) {
       color={income ? "green" : "red"}
     />
   );
-
-  const handleDelete = (id) => () => {
-    const deleteQuery = "DELETE FROM transactions WHERE id = ?;";
-    executeSQL(deleteQuery, [id], (_, { rowsAffected }) => {
-      if (rowsAffected) {
-        dispatch(messageActions.showMessage({ message: "Delete success" }));
-        // TODO: Find a way to refresh the page list at home
-      }
-    });
-  };
 
   const handleEdit = (id) => () => {
     const selectQuery = "SELECT * FROM transactions WHERE id = ?;";
@@ -56,7 +46,7 @@ export default function TransactionList({ data }) {
     return (
       <AppleStyleSwipeableRow
         key={item.id}
-        onDelete={handleDelete(item.id)}
+        onDelete={handleDeleteItem(item.id)}
         onEdit={handleEdit(item.id)}
       >
         <ListItem
