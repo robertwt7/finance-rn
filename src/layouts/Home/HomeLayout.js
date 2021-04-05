@@ -1,15 +1,13 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text } from "@ui-kitten/components";
-import { Calendar } from "react-native-calendars";
-import dayjs from "dayjs";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { Text, Calendar, useTheme } from "@ui-kitten/components";
+import { useIsFocused } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
-import * as lodash from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as dateActions } from "store/ducks/date.duck";
 import { ThemedView } from "components";
 import { actions as messageActions } from "store/ducks/message.duck";
+import { Entypo } from "@expo/vector-icons";
 import { moderateScale } from "../../helpers";
 import TransactionList from "./TransactionList";
 
@@ -52,35 +50,48 @@ const styles = StyleSheet.create({
   ml16: {
     marginLeft: 16,
   },
+  dayContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    aspectRatio: 1,
+  },
+  value: {
+    fontSize: 12,
+    fontWeight: "400",
+  },
 });
 
+const DayCell = (transactions, theme) => ({ date }, style) => {
+  const hasTransaction =
+    transactions.filter((item) => item.date === date.toISOString().slice(0, 10))
+      .length > 0;
+  return (
+    <View style={[styles.dayContainer, style.container]}>
+      <Text style={style.text}>{`${date.getDate()}`}</Text>
+      <Entypo
+        name="dot-single"
+        color={hasTransaction ? theme["color-success-500"] : "transparent"}
+      />
+    </View>
+  );
+};
+
 export default function HomeLayout() {
-  const [markedDate, setMarkedDate] = useState({});
+  const [markedDate, setMarkedDate] = useState(new Date());
   const isFocused = useIsFocused();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.date);
 
+  const theme = useTheme();
+
   const getTransactions = () => {
     const query =
       "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
     if (isFocused) {
       executeSQL(query, undefined, (_, { rows: { _array } }) => {
-        // Set marked date
-        // All same date data will be removed though
-        const processedData = lodash.keyBy(_array, (item) => item.date);
-        Object.keys(processedData).forEach((item) => {
-          processedData[item] = {
-            ...processedData[item],
-            marked: true,
-          };
-        });
-        setMarkedDate({
-          ...markedDate,
-          ...processedData,
-        });
-
         // Set transactions
         setTransactions(_array);
       });
@@ -102,64 +113,28 @@ export default function HomeLayout() {
   };
 
   const handleClick = useCallback(
-    (day) => {
+    (nextDate) => {
       // Set marked date
-      setMarkedDate({
-        ...markedDate,
-        [selectedDate]: {
-          ...markedDate[selectedDate],
-          selected: false,
-        },
-        [day.dateString]: {
-          ...markedDate[day.dateString],
-          selected: true,
-          selectedColor: "#3f51b5",
-        },
-      });
+      setMarkedDate(nextDate);
 
+      // Format javascript date to YYYY-MM-DD
+      const formattedDate = nextDate.toISOString().slice(0, 10);
       // Use this later to set previous selected date as false when marking date in markedDate
-      dispatch(dateActions.changeDate(day.dateString));
+      dispatch(dateActions.changeDate(formattedDate));
 
       setFilteredTransactions(
-        transactions.filter((item) => item.date === day.dateString)
+        transactions.filter((item) => item.date === formattedDate)
       );
     },
-    [transactions, markedDate]
+    [transactions]
   );
 
   return (
     <View style={styles.container}>
       <Calendar
-        // Initially visible month. Default = Date()
-        current={dayjs().format("YYYY-MM-DD")}
-        // Handler which gets executed on day press. Default = undefined
-        onDayPress={handleClick}
-        markedDates={markedDate}
-        // Handler which gets executed on day long press. Default = undefined
-        onDayLongPress={(day) => {
-          console.log("selected day", day);
-        }}
-        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-        monthFormat="MMM yyyy"
-        // Handler which gets executed when visible month changes in calendar. Default = undefined
-        onMonthChange={(month) => {
-          console.log("month changed", month);
-        }}
-        // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-        // day from another month that is visible in calendar page. Default = false
-
-        // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-        firstDay={1}
-        // Show week numbers to the left. Default = false
-        showWeekNumbers
-        // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-        onPressArrowLeft={(subtractMonth) => subtractMonth()}
-        // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-        onPressArrowRight={(addMonth) => addMonth()}
-        // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-        disableAllTouchEventsForDisabledDays
-        // Enable the option to swipe between months. Default = false
-        enableSwipeMonths
+        onSelect={handleClick}
+        date={markedDate}
+        renderDay={DayCell(transactions, theme)}
       />
       <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
