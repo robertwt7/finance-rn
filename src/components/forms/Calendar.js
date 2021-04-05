@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { Calendar, Button, Text, Popover } from "@ui-kitten/components";
+import {
+  Datepicker,
+  Button,
+  Text,
+  Popover,
+  useTheme,
+} from "@ui-kitten/components";
 import { Pressable, StyleSheet } from "react-native";
 import { useFormikContext, useField } from "formik";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-
+import { MaterialIcons } from "@expo/vector-icons";
 import { moderateScale } from "helpers";
 
 const styles = StyleSheet.create({
@@ -17,41 +23,30 @@ const styles = StyleSheet.create({
 const FormikCalendar = ({ name, label }) => {
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const [field, meta] = useField(name);
-  const [visible, setVisible] = useState(false);
+  const theme = useTheme();
+
+  const CalendarIcon = (props) => (
+    <MaterialIcons
+      name="calendar-today"
+      size={24}
+      color={theme["color-primary-default"]}
+    />
+  );
 
   const handleSelect = (nextDate) => {
     setFieldValue(name, nextDate);
     setFieldTouched(name, true);
   };
 
-  const renderToggleCalendar = () => (
-    <Pressable
-      onPress={() => setVisible(true)}
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? "rgba(63, 81, 181, 0.08)" : "transparent",
-          paddingVertical: 8,
-        },
-      ]}
-    >
-      <Text style={styles.title}>
-        {label}: {dayjs(field.value).format("DD MMM YYYY")}
-      </Text>
-    </Pressable>
-  );
-
   return (
     field.value && (
-      <>
-        <Popover
-          anchor={renderToggleCalendar}
-          visible={visible}
-          placement="bottom"
-          onBackdropPress={() => setVisible(false)}
-        >
-          <Calendar date={new Date(field.value)} onSelect={handleSelect} />
-        </Popover>
-      </>
+      <Datepicker
+        date={new Date(field.value)}
+        onSelect={handleSelect}
+        label={label}
+        placeholder="Pick Date"
+        accessoryRight={CalendarIcon}
+      />
     )
   );
 };
