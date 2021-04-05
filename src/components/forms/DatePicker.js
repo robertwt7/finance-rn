@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Datepicker,
-  Button,
-  Text,
-  Popover,
-  useTheme,
-} from "@ui-kitten/components";
+import { Datepicker, useTheme } from "@ui-kitten/components";
 import { Pressable, StyleSheet } from "react-native";
 import { useFormikContext, useField } from "formik";
 import dayjs from "dayjs";

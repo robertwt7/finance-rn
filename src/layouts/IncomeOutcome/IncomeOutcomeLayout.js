@@ -8,7 +8,7 @@ import {
   formValues,
 } from "constants/forms/TransactionConst";
 import { executeSQL } from "db/methods";
-import { TextField, Switch, Select, CalendarInput } from "components/forms";
+import { TextField, Switch, Select, DatePicker } from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
@@ -73,7 +73,7 @@ function IncomeOutcomeLayout(props) {
             {({ isSubmitting, values, handleSubmit }) => (
               <>
                 <View style={styles.my8}>
-                  <CalendarInput name="date" label="Date" />
+                  <DatePicker name="date" label="Date" />
                 </View>
                 <View style={styles.my8}>
                   <TextField name="name" label="Name" />
