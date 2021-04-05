@@ -95,6 +95,7 @@ export default function HomeLayout() {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.date);
+  const [ready, setReady] = useState(false);
 
   const theme = useTheme();
 
@@ -102,9 +103,11 @@ export default function HomeLayout() {
     const query =
       "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
     if (isFocused) {
+      setReady(false);
       executeSQL(query, undefined, (_, { rows: { _array } }) => {
         // Set transactions
         setTransactions(_array);
+        setReady(true);
       });
     }
   };
@@ -142,12 +145,14 @@ export default function HomeLayout() {
 
   return (
     <View style={styles.container}>
-      <Calendar
-        onSelect={handleClick}
-        date={markedDate}
-        renderDay={DayCell(transactions, theme)}
-        style={[styles.w100, styles.backgroundBasic]}
-      />
+      {ready && (
+        <Calendar
+          onSelect={handleClick}
+          date={markedDate}
+          renderDay={DayCell(transactions, theme)}
+          style={[styles.w100, styles.backgroundBasic]}
+        />
+      )}
       <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
           <ThemedView style={styles.flex1}>
