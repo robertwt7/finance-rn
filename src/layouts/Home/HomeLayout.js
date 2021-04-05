@@ -107,6 +107,9 @@ export default function HomeLayout() {
       executeSQL(query, undefined, (_, { rows: { _array } }) => {
         // Set transactions
         setTransactions(_array);
+        setFilteredTransactions(
+          transactions.filter((item) => item.date === selectedDate)
+        );
         setReady(true);
       });
     }
@@ -144,43 +147,48 @@ export default function HomeLayout() {
   );
 
   return (
-    <View style={styles.container}>
-      {ready && (
+    ready && (
+      <View style={styles.container}>
         <Calendar
           onSelect={handleClick}
           date={markedDate}
           renderDay={DayCell(transactions, theme)}
           style={[styles.w100, styles.backgroundBasic]}
         />
-      )}
-      <View style={styles.flex1}>
-        {filteredTransactions.length > 0 ? (
-          <ThemedView style={styles.flex1}>
-            <Text
-              style={[styles.text3xl, styles.textBold, styles.m8, styles.ml16]}
-              status="basic"
-            >
-              Transactions
-            </Text>
-            <Text status="basic" style={[styles.ml16]}>
-              {selectedDate}
-            </Text>
-            <ThemedView style={[styles.m8, styles.flex1]}>
-              <TransactionList
-                data={filteredTransactions}
-                handleDeleteItem={handleDeleteItem}
-              />
+        <View style={styles.flex1}>
+          {filteredTransactions.length > 0 ? (
+            <ThemedView style={styles.flex1}>
+              <Text
+                style={[
+                  styles.text3xl,
+                  styles.textBold,
+                  styles.m8,
+                  styles.ml16,
+                ]}
+                status="basic"
+              >
+                Transactions
+              </Text>
+              <Text status="basic" style={[styles.ml16]}>
+                {selectedDate}
+              </Text>
+              <ThemedView style={[styles.m8, styles.flex1]}>
+                <TransactionList
+                  data={filteredTransactions}
+                  handleDeleteItem={handleDeleteItem}
+                />
+              </ThemedView>
             </ThemedView>
-          </ThemedView>
-        ) : (
-          <View style={{ height: "100%", justifyContent: "center" }}>
-            <Text style={[styles.textCenter, styles.textLg]}>
-              There is nothing here.. please add expense or income for selected
-              day
-            </Text>
-          </View>
-        )}
+          ) : (
+            <View style={{ height: "100%", justifyContent: "center" }}>
+              <Text style={[styles.textCenter, styles.textLg]}>
+                There is nothing here.. please add expense or income for
+                selected day
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
-    </View>
+    )
   );
 }
