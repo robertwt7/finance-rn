@@ -1,6 +1,12 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text, Calendar, useTheme } from "@ui-kitten/components";
+import {
+  Text,
+  Calendar,
+  useTheme,
+  StyleService,
+  useStyleSheet,
+} from "@ui-kitten/components";
 import { useIsFocused } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,10 +14,11 @@ import { actions as dateActions } from "store/ducks/date.duck";
 import { ThemedView } from "components";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { Entypo } from "@expo/vector-icons";
+import { formatDateToDbTime } from "helpers";
 import { moderateScale } from "../../helpers";
 import TransactionList from "./TransactionList";
 
-const styles = StyleSheet.create({
+const themedStyles = StyleService.create({
   container: {
     flex: 1,
   },
@@ -24,8 +31,8 @@ const styles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
-  backgroundWhite: {
-    backgroundColor: "#fff",
+  backgroundBasic: {
+    backgroundColor: "color-basic-100",
   },
   buttonContainer: {
     padding: 8,
@@ -67,10 +74,10 @@ const styles = StyleSheet.create({
 
 const DayCell = (transactions, theme) => ({ date }, style) => {
   const hasTransaction =
-    transactions.filter((item) => item.date === date.toISOString().slice(0, 10))
+    transactions.filter((item) => item.date === formatDateToDbTime(date))
       .length > 0;
   return (
-    <View style={[styles.dayContainer, style.container]}>
+    <View style={[themedStyles.dayContainer, style.container]}>
       <Text style={style.text}>{`${date.getDate()}`}</Text>
       <Entypo
         name="dot-single"
@@ -81,6 +88,7 @@ const DayCell = (transactions, theme) => ({ date }, style) => {
 };
 
 export default function HomeLayout() {
+  const styles = useStyleSheet(themedStyles);
   const [markedDate, setMarkedDate] = useState(new Date());
   const isFocused = useIsFocused();
   const [transactions, setTransactions] = useState([]);
@@ -121,8 +129,7 @@ export default function HomeLayout() {
       setMarkedDate(nextDate);
 
       // Format javascript date to YYYY-MM-DD
-      const formattedDate = nextDate.toISOString().slice(0, 10);
-      console.log(formattedDate);
+      const formattedDate = formatDateToDbTime(nextDate);
       // Use this later to set previous selected date as false when marking date in markedDate
       dispatch(dateActions.changeDate(formattedDate));
 
@@ -139,7 +146,7 @@ export default function HomeLayout() {
         onSelect={handleClick}
         date={markedDate}
         renderDay={DayCell(transactions, theme)}
-        style={styles.w100}
+        style={[styles.w100, styles.backgroundBasic]}
       />
       <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
