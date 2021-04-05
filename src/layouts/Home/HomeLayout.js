@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
   ml16: {
     marginLeft: 16,
   },
+  w100: {
+    width: "100%",
+  },
   dayContainer: {
     flex: 1,
     justifyContent: "center",
@@ -119,6 +122,7 @@ export default function HomeLayout() {
 
       // Format javascript date to YYYY-MM-DD
       const formattedDate = nextDate.toISOString().slice(0, 10);
+      console.log(formattedDate);
       // Use this later to set previous selected date as false when marking date in markedDate
       dispatch(dateActions.changeDate(formattedDate));
 
@@ -135,6 +139,7 @@ export default function HomeLayout() {
         onSelect={handleClick}
         date={markedDate}
         renderDay={DayCell(transactions, theme)}
+        style={styles.w100}
       />
       <View style={styles.flex1}>
         {filteredTransactions.length > 0 ? (
@@ -144,6 +149,9 @@ export default function HomeLayout() {
               status="basic"
             >
               Transactions
+            </Text>
+            <Text status="basic" style={[styles.ml16]}>
+              {selectedDate}
             </Text>
             <ThemedView style={[styles.m8, styles.flex1]}>
               <TransactionList
