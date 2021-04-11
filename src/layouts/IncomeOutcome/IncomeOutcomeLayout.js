@@ -24,6 +24,15 @@ function IncomeOutcomeLayout(props) {
   const handleAddCategory = () => {
     navigation.push("CategoryForm");
   };
+
+  useEffect(() => {
+    if (route.params && route.params.result) {
+      setInitial({
+        ...route.params.result,
+      });
+    }
+  }, [route]);
+
   const query = "SELECT * from categories;";
   executeSQL(query, undefined, (_, { rows: { _array } }) => {
     setCategories(_array);
@@ -38,8 +47,12 @@ function IncomeOutcomeLayout(props) {
   }, [selectedDate, formValues]);
 
   const handleFormSubmit = (values) => {
-    const submitQuery =
+    let submitQuery =
       "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?);";
+    if (route.params && route.params.result) {
+      submitQuery = `UPDATE transactions SET name = ?, income = ?, amount = ?, category_id = ?, date = ? WHERE id = ${route.params.result.id};`;
+    }
+
     executeSQL(
       submitQuery,
       [
