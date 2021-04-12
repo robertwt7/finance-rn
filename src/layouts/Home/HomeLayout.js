@@ -108,8 +108,9 @@ export default function HomeLayout() {
         // Set transactions
         setTransactions(_array);
         setFilteredTransactions(
-          transactions.filter((item) => item.date === selectedDate)
+          _array.filter((item) => item.date === selectedDate)
         );
+
         setReady(true);
       });
     }
@@ -124,9 +125,10 @@ export default function HomeLayout() {
     executeSQL(deleteQuery, [id], (_, { rowsAffected }) => {
       if (rowsAffected) {
         dispatch(messageActions.showMessage({ message: "Delete success" }));
-        getTransactions();
       }
     });
+
+    getTransactions();
   };
 
   const handleClick = useCallback(

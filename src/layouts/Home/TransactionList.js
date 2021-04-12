@@ -60,6 +60,9 @@ export default function TransactionList({ data, handleDeleteItem }) {
     );
   };
 
+  console.log("Data received");
+  console.log(data);
+
   return <List style={styles.container} data={data} renderItem={renderItem} />;
 }
 
