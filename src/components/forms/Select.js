@@ -17,14 +17,11 @@ export default function FormikSelect({ data, name, label }) {
   const [field, meta] = useField(name);
 
   useEffect(() => {
-    console.log(field.value);
-    console.log(name);
     // If prefilled with edit data from db
     if (field.value && data.length > 0) {
-      console.log(field.value);
       setDisplayValue(data[field.value].name);
     }
-  }, [field.value]);
+  }, [field.value, data]);
 
   const handleSelect = (index) => {
     setSelectedIndex(index);

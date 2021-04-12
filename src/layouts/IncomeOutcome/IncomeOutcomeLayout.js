@@ -33,23 +33,27 @@ function IncomeOutcomeLayout(props) {
     navigation.push("CategoryForm");
   };
   const isFocused = useIsFocused();
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (route.params && route.params.result) {
-      console.log("This is the result");
-      console.log(route.params.result);
       setInitial({
         ...route.params.result,
         categoryId: route.params.result.category_id,
       });
+      setReady(true);
     }
   }, [route]);
+
+  console.log(initial);
 
   useEffect(() => {
     const query = "SELECT * from categories;";
     executeSQL(query, undefined, (_, { rows: { _array } }) => {
       setCategories(_array);
     });
+
+    setReady(true);
   }, [isFocused]);
 
   const handleFormSubmit = (values) => {
@@ -83,49 +87,51 @@ function IncomeOutcomeLayout(props) {
   };
 
   return (
-    <KeyboardAwareScrollView style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View>
-          <Formik
-            enableReinitialize
-            onSubmit={handleFormSubmit}
-            initialValues={initial}
-            validationSchema={validationTransaction}
-          >
-            {({ isSubmitting, values, handleSubmit }) => (
-              <>
-                <View style={styles.my8}>
-                  <DatePicker name="date" label="Date" />
-                </View>
-                <View style={styles.my8}>
-                  <TextField name="name" label="Name" />
-                </View>
-                <View style={styles.my8}>
-                  <TextField name="amount" label="Amount" />
-                </View>
-                <View style={styles.my8}>
-                  <Select
-                    name="categoryId"
-                    label="Category"
-                    data={categories}
-                  />
-                </View>
-                <View style={styles.my8}>
-                  <Button onPress={handleAddCategory} appearance="outline">
-                    Add New Category
-                  </Button>
-                </View>
-                <View style={styles.my8}>
-                  <Button onPress={handleSubmit} disabled={isSubmitting}>
-                    Submit
-                  </Button>
-                </View>
-              </>
-            )}
-          </Formik>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAwareScrollView>
+    ready && (
+      <KeyboardAwareScrollView style={styles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View>
+            <Formik
+              enableReinitialize
+              onSubmit={handleFormSubmit}
+              initialValues={initial}
+              validationSchema={validationTransaction}
+            >
+              {({ isSubmitting, values, handleSubmit }) => (
+                <>
+                  <View style={styles.my8}>
+                    <DatePicker name="date" label="Date" />
+                  </View>
+                  <View style={styles.my8}>
+                    <TextField name="name" label="Name" />
+                  </View>
+                  <View style={styles.my8}>
+                    <TextField name="amount" label="Amount" />
+                  </View>
+                  <View style={styles.my8}>
+                    <Select
+                      name="categoryId"
+                      label="Category"
+                      data={categories}
+                    />
+                  </View>
+                  <View style={styles.my8}>
+                    <Button onPress={handleAddCategory} appearance="outline">
+                      Add New Category
+                    </Button>
+                  </View>
+                  <View style={styles.my8}>
+                    <Button onPress={handleSubmit} disabled={isSubmitting}>
+                      Submit
+                    </Button>
+                  </View>
+                </>
+              )}
+            </Formik>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
+    )
   );
 }
 

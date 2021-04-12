@@ -24,7 +24,7 @@ export default function TextField({ name, label, secure = false, ...props }) {
   return (
     <Input
       status={Boolean(meta.error && meta.touched) && "danger"}
-      value={field.value}
+      value={String(field.value)}
       label={label}
       caption={Boolean(meta.error && meta.touched) && String(meta.error)}
       secureTextEntry={secure}
