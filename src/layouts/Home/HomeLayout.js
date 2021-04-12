@@ -7,7 +7,7 @@ import {
   StyleService,
   useStyleSheet,
 } from "@ui-kitten/components";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { executeSQL } from "db/methods";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as dateActions } from "store/ducks/date.duck";
@@ -96,6 +96,7 @@ export default function HomeLayout() {
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.date);
   const [ready, setReady] = useState(false);
+  const navigation = useNavigation();
 
   const theme = useTheme();
 
@@ -128,6 +129,18 @@ export default function HomeLayout() {
       }
     });
 
+    getTransactions();
+  };
+
+  const handleEdit = (id) => () => {
+    const selectQuery = "SELECT * FROM transactions WHERE id = ?;";
+
+    executeSQL(selectQuery, [id], (_, { rows: { _array } }) => {
+      const result = _array[0];
+      if (result) {
+        navigation.navigate("IncomeOutcome", { income: result.income, result });
+      }
+    });
     getTransactions();
   };
 
@@ -178,6 +191,7 @@ export default function HomeLayout() {
                 <TransactionList
                   data={filteredTransactions}
                   handleDeleteItem={handleDeleteItem}
+                  handleEdit={handleEdit}
                 />
               </ThemedView>
             </ThemedView>

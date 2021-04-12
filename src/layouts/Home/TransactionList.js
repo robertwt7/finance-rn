@@ -4,14 +4,11 @@ import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import { AppleStyleSwipeableRow } from "components";
-import { executeSQL } from "db/methods";
-import { useDispatch } from "react-redux";
-import { actions as messageActions } from "store/ducks/message.duck";
-import { useNavigation } from "@react-navigation/native";
 
 TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   handleDeleteItem: PropTypes.func,
+  handleEdit: PropTypes.func,
 };
 
 const renderAmount = (income, amount) => () => (
@@ -20,10 +17,11 @@ const renderAmount = (income, amount) => () => (
   </Text>
 );
 
-export default function TransactionList({ data, handleDeleteItem }) {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
-
+export default function TransactionList({
+  data,
+  handleDeleteItem,
+  handleEdit,
+}) {
   const renderItemIcon = (income) => (props) => (
     <Ionicons
       name={income ? "caret-up-circle" : "caret-down-circle"}
@@ -31,17 +29,6 @@ export default function TransactionList({ data, handleDeleteItem }) {
       color={income ? "green" : "red"}
     />
   );
-
-  const handleEdit = (id) => () => {
-    const selectQuery = "SELECT * FROM transactions WHERE id = ?;";
-
-    executeSQL(selectQuery, [id], (_, { rows: { _array } }) => {
-      const result = _array[0];
-      if (result) {
-        navigation.navigate("IncomeOutcome", { income: result.income, result });
-      }
-    });
-  };
 
   const renderItem = ({ item, index }) => {
     return (
@@ -59,9 +46,6 @@ export default function TransactionList({ data, handleDeleteItem }) {
       </AppleStyleSwipeableRow>
     );
   };
-
-  console.log("Data received");
-  console.log(data);
 
   return <List style={styles.container} data={data} renderItem={renderItem} />;
 }
