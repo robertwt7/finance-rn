@@ -29,6 +29,7 @@ export default function TextField({ name, label, secure = false, ...props }) {
       caption={Boolean(meta.error && meta.touched) && String(meta.error)}
       secureTextEntry={secure}
       onChangeText={handleType}
+      {...props}
     />
   );
 }

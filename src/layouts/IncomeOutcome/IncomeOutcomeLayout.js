@@ -17,6 +17,7 @@ import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "@ui-kitten/components";
 import dayjs from "dayjs";
+import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
@@ -106,7 +107,13 @@ function IncomeOutcomeLayout(props) {
                     <TextField name="name" label="Name" />
                   </View>
                   <View style={styles.my8}>
-                    <TextField name="amount" label="Amount" />
+                    <TextField
+                      name="amount"
+                      label="Amount"
+                      accessoryLeft={() => (
+                        <FontAwesome5 name="dollar-sign" size={12} />
+                      )}
+                    />
                   </View>
                   <View style={styles.my8}>
                     <Select

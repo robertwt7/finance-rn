@@ -19,7 +19,8 @@ export default function FormikSelect({ data, name, label }) {
   useEffect(() => {
     // If prefilled with edit data from db
     if (field.value && data.length > 0) {
-      setDisplayValue(data[field.value].name);
+      const index = data.map((i) => i.id).indexOf(field.value);
+      setDisplayValue(data[index].name);
     }
   }, [field.value, data]);
 
@@ -27,7 +28,7 @@ export default function FormikSelect({ data, name, label }) {
     setSelectedIndex(index);
     setFieldTouched(name, true);
     setFieldValue(name, data[index.row].id);
-    setDisplayValue(data[index.row].name);
+    // setDisplayValue(data[index.row].name);
   };
 
   return (
