@@ -46,8 +46,6 @@ function IncomeOutcomeLayout(props) {
     }
   }, [route]);
 
-  console.log(initial);
-
   useEffect(() => {
     const query = "SELECT * from categories;";
     executeSQL(query, undefined, (_, { rows: { _array } }) => {
