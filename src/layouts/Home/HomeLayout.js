@@ -169,6 +169,8 @@ export default function HomeLayout() {
           date={markedDate}
           renderDay={DayCell(transactions, theme)}
           style={[styles.w100, styles.backgroundBasic]}
+          min={new Date("1990-01-01")}
+          max={new Date("2060-01-01")}
         />
         <View style={styles.flex1}>
           {filteredTransactions.length > 0 ? (
