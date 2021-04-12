@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
 import { Formik } from "formik";
 import {
   validationTransaction,
@@ -17,39 +21,42 @@ import styles from "./styles";
 
 function IncomeOutcomeLayout(props) {
   const route = useRoute();
-  const [initial, setInitial] = useState(formValues);
+  const { selectedDate } = useSelector((state) => state.date);
+  const [initial, setInitial] = useState({
+    ...formValues,
+    date: dayjs(selectedDate),
+  });
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const handleAddCategory = () => {
     navigation.push("CategoryForm");
   };
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (route.params && route.params.result) {
+      console.log("This is the result");
+      console.log(route.params.result);
       setInitial({
         ...route.params.result,
+        categoryId: route.params.result.category_id,
       });
     }
   }, [route]);
 
-  const query = "SELECT * from categories;";
-  executeSQL(query, undefined, (_, { rows: { _array } }) => {
-    setCategories(_array);
-  });
-  const { selectedDate } = useSelector((state) => state.date);
-
   useEffect(() => {
-    setInitial({
-      ...formValues,
-      date: dayjs(selectedDate),
+    const query = "SELECT * from categories;";
+    executeSQL(query, undefined, (_, { rows: { _array } }) => {
+      setCategories(_array);
     });
-  }, [selectedDate, formValues]);
+  }, [isFocused]);
 
   const handleFormSubmit = (values) => {
+    const isUpdate = route.params && route.params.result;
     let submitQuery =
       "INSERT INTO transactions (name, income, amount, category_id, date) VALUES (?,?,?,?,?);";
-    if (route.params && route.params.result) {
+    if (isUpdate) {
       submitQuery = `UPDATE transactions SET name = ?, income = ?, amount = ?, category_id = ?, date = ? WHERE id = ${route.params.result.id};`;
     }
 
@@ -59,13 +66,15 @@ function IncomeOutcomeLayout(props) {
         values.name,
         route.params.income,
         values.amount,
-        values.category,
+        values.categoryId,
         dayjs(values.date).format("YYYY-MM-DD"),
       ],
       (_, { rowsAffected }) => {
         if (rowsAffected) {
           dispatch(
-            messageActions.showMessage({ message: "Transaction inserted" })
+            messageActions.showMessage({
+              message: isUpdate ? "Transaction updated" : "Transaction created",
+            })
           );
           setTimeout(() => navigation.goBack(), 1000);
         }
@@ -95,10 +104,16 @@ function IncomeOutcomeLayout(props) {
                   <TextField name="amount" label="Amount" />
                 </View>
                 <View style={styles.my8}>
-                  <Select name="category" label="Category" data={categories} />
+                  <Select
+                    name="categoryId"
+                    label="Category"
+                    data={categories}
+                  />
                 </View>
                 <View style={styles.my8}>
-                  <Button onPress={handleAddCategory}>Add New Category</Button>
+                  <Button onPress={handleAddCategory} appearance="outline">
+                    Add New Category
+                  </Button>
                 </View>
                 <View style={styles.my8}>
                   <Button onPress={handleSubmit} disabled={isSubmitting}>

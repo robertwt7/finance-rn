@@ -9,7 +9,7 @@ export const validationTransaction = yup.object().shape({
 const values = {
   name: "",
   income: 0,
-  category_id: "",
+  categoryId: "",
   amount: 0,
   date: new Date(),
 };

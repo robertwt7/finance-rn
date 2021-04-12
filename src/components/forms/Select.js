@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { IndexPath, Select, SelectItem } from "@ui-kitten/components";
-import { useFormikContext } from "formik";
+import { useFormikContext, useField } from "formik";
 import PropTypes from "prop-types";
 
 FormikSelect.propTypes = {
@@ -14,6 +14,17 @@ export default function FormikSelect({ data, name, label }) {
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const [displayValue, setDisplayValue] = useState(" ");
   const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [field, meta] = useField(name);
+
+  useEffect(() => {
+    console.log(field.value);
+    console.log(name);
+    // If prefilled with edit data from db
+    if (field.value && data.length > 0) {
+      console.log(field.value);
+      setDisplayValue(data[field.value].name);
+    }
+  }, [field.value]);
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
