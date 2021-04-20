@@ -37,6 +37,8 @@ export default function FormikSelect({ data, name, label }) {
       onSelect={handleSelect}
       value={displayValue}
       label={label}
+      caption={Boolean(meta.error && meta.touched) && String(meta.error)}
+      status={Boolean(meta.error && meta.touched) && "danger"}
     >
       {data.map((item) => (
         <SelectItem title={item.name} key={item.id} />
