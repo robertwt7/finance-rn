@@ -100,7 +100,7 @@ export default function HomeLayout() {
 
   const theme = useTheme();
 
-  const getTransactions = () => {
+  const getTransactions = useCallback(() => {
     const query =
       "SELECT t.*, c.name AS category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id;";
     if (isFocused) {
@@ -115,11 +115,11 @@ export default function HomeLayout() {
         setReady(true);
       });
     }
-  };
+  }, [isFocused]);
 
   useEffect(() => {
     getTransactions();
-  }, [setTransactions, isFocused]);
+  }, [getTransactions]);
 
   const handleDeleteItem = (id) => () => {
     const deleteQuery = "DELETE FROM transactions WHERE id = ?;";
