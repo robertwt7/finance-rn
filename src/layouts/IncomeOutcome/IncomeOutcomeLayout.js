@@ -12,13 +12,27 @@ import {
   formValues,
 } from "constants/forms/TransactionConst";
 import { executeSQL } from "db/methods";
-import { TextField, Switch, Select, DatePicker } from "components/forms";
+import {
+  TextField,
+  Switch,
+  Select as FormikSelect,
+  DatePicker,
+} from "components/forms";
 import { actions as messageActions } from "store/ducks/message.duck";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Button } from "@ui-kitten/components";
+import { Button, Select, SelectItem, IndexPath } from "@ui-kitten/components";
 import dayjs from "dayjs";
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "./styles";
+
+const repeatOption = [
+  { id: 0, name: "Never" },
+  { id: 1, name: "Every Day" },
+  { id: 2, name: "Every Week" },
+  { id: 3, name: "Every Fortnight" },
+  { id: 4, name: "Every Month" },
+  { id: 5, name: "Every Year" },
+];
 
 function IncomeOutcomeLayout(props) {
   const route = useRoute();
@@ -35,6 +49,14 @@ function IncomeOutcomeLayout(props) {
   };
   const isFocused = useIsFocused();
   const [ready, setReady] = useState(false);
+
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(1));
+  const [displayValue, setDisplayValue] = useState(repeatOption[0].name);
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+    setDisplayValue(repeatOption[index.row].name);
+  };
 
   useEffect(() => {
     if (route.params && route.params.result) {
@@ -114,7 +136,7 @@ function IncomeOutcomeLayout(props) {
                     />
                   </View>
                   <View style={styles.my8}>
-                    <Select
+                    <FormikSelect
                       name="categoryId"
                       label="Category"
                       data={categories}
@@ -125,6 +147,26 @@ function IncomeOutcomeLayout(props) {
                       Add New Category
                     </Button>
                   </View>
+                  <View style={styles.my8}>
+                    <Select
+                      selectedIndex={selectedIndex}
+                      onSelect={handleSelect}
+                      value={displayValue}
+                      label="Repeat"
+                    >
+                      {repeatOption.map((item) => (
+                        <SelectItem title={item.name} key={item.id} />
+                      ))}
+                    </Select>
+                  </View>
+                  {selectedIndex.row !== 0 && (
+                    <View style={styles.my8}>
+                      <DatePicker
+                        name="endRepeatDate"
+                        label="End Repeat Date"
+                      />
+                    </View>
+                  )}
                   <View style={styles.my8}>
                     <Button onPress={handleSubmit} disabled={isSubmitting}>
                       Submit

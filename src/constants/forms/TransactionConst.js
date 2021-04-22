@@ -28,7 +28,10 @@ const values = {
   name: "",
   income: 0,
   categoryId: "",
+  recurringMonthly: 0,
   amount: 0,
+  repeatId: 0,
+  endRepeatDate: new Date("1990-01-01"),
   date: new Date(),
 };
 

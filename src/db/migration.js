@@ -38,6 +38,14 @@ const migrations = {
       query: `ALTER TABLE transactions ADD COLUMN date TEXT;`,
     },
   ],
+  2: [
+    {
+      query: `ALTER TABLE transactions ADD COLUMN repeat INT;`,
+    },
+    {
+      query: `ALTER TABLE transactions ADD COLUMN end_repeat_date TEXT`,
+    },
+  ],
 };
 
 export default migrations;
