@@ -31,7 +31,6 @@ export default function TransactionList({
   );
 
   const renderItem = ({ item, index }) => {
-    console.log(item);
     return (
       <AppleStyleSwipeableRow
         key={item.id}
