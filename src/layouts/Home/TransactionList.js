@@ -31,6 +31,7 @@ export default function TransactionList({
   );
 
   const renderItem = ({ item, index }) => {
+    console.log(item);
     return (
       <AppleStyleSwipeableRow
         key={item.id}
@@ -39,7 +40,7 @@ export default function TransactionList({
       >
         <ListItem
           title={`${item.name}`}
-          description={`${item.category_name}`}
+          description={item.category_name !== null && `${item.category_name}`}
           accessoryLeft={renderItemIcon(item.income)}
           accessoryRight={renderAmount(item.income, item.amount)}
         />
